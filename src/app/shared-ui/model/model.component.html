@@ -1,0 +1,16 @@
+<ng-template #content let-modal>
+  <div class="modal-header" dir="ltr">
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="modal-body" [dir]="Lang == 'ar' ? 'rtl' : 'ltr'">
+    <ng-content select="[body]"></ng-content>
+  </div>
+  <div class="modal-footer" [dir]="Lang == 'ar' ? 'rtl' : 'ltr'">
+    <ng-content select="[footer]"></ng-content>
+    <app-button
+      [btnClass]="'btn btn-outline-danger'"
+      [btnText]="Lang == 'ar' ? 'الغاء' : 'close'"
+      (CallBack)="handleClose()"
+    ></app-button>
+  </div>
+</ng-template>

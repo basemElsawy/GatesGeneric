@@ -1,0 +1,504 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'المستخدمين' : 'Users'"
+  [endPointUrl]="'user/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'username'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="'table table-striped table-responsive background-blue'"
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isShowing]="false"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة المستخدم" : "Add User" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل المستخدم" : "Add User" }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{ getCurrentLanguage() == "ar" ? "حذف المستخدم" : "delete User" }}
+    </h4>
+  </div>
+  <div body>
+    <div>
+      <form
+        class="row"
+        [formGroup]="f"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' الاسم الاول ' : 'First Name '
+            "
+            [LabelFor]="'first_name'"
+          >
+          </app-label>
+
+          <app-input-text
+            autocomplete="false"
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' الاسم الاول' : 'First Name '
+            "
+            [FormConterName]="'first_name'"
+            [InputClass]="'form-control '"
+            [Id]="'first_name'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' الاسم الاب ' : 'Middle Name '
+            "
+            [LabelFor]="'middle_name'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' الاسم الاب' : 'mMiddle Name '
+            "
+            [FormConterName]="'middle_name'"
+            [InputClass]="'form-control '"
+            [Id]="'middle_name'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' الاسم الجد ' : 'Last Name '
+            "
+            [LabelFor]="'first_name'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' الاسم الجد' : 'Last Name '
+            "
+            [FormConterName]="'last_name'"
+            [InputClass]="'form-control '"
+            [Id]="'last_name'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' اسم المستخدم ' : 'user name '
+            "
+            [LabelFor]="'username'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' اسم المستخدم ' : 'User Name Ar'
+            "
+            [FormConterName]="'username'"
+            [InputClass]="'form-control '"
+            [Id]="'username'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' كلمة المرور المستخدم '
+                : 'user password '
+            "
+            [LabelFor]="'password'"
+          >
+          </app-label>
+
+          <app-input-text
+            autocomplete="false"
+            [Type]="'password'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' كلمة المرور المستخدم '
+                : 'User password '
+            "
+            [FormConterName]="'password'"
+            [InputClass]="'form-control '"
+            [Id]="'password'"
+            [FormParent]="f"
+            [disable]="pass"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' البريد الالكتروني ' : 'email '
+            "
+            [LabelFor]="'email'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'email'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? '   البريد الالكتروني ' : 'Email '
+            "
+            [FormConterName]="'email'"
+            [InputClass]="'form-control '"
+            [Id]="'email'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? '  الرقم القومي '
+                : 'Social Security Number'
+            "
+            [LabelFor]="'number_of_identification'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? '   الرقم القومي '
+                : 'Social Security Number '
+            "
+            [FormConterName]="'number_of_identification'"
+            [InputClass]="'form-control '"
+            [Id]="'number_of_identification'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [isFocused]="true"
+            [inputmax]="14"
+            (callBack)="handleFocuseCallback($event)"
+          >
+          </app-input-text>
+          <div *ngIf="!controlIsRight" class="text-danger mb-0 fw-bold">
+            {{ ssnError }}
+          </div>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="getCurrentLanguage() == 'ar' ? '  الجنس ' : 'Gender '"
+            [LabelFor]="'gender'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'gender'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'gender'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="ganderList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'id'"
+            [viewKeyAr]="'val_Ar'"
+            [viewKeyEn]="'val_En'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? '  الرقم المحمول '
+                : 'Mobile Number'
+            "
+            [LabelFor]="'mobile'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? '   الرقم المحمول '
+                : 'Mobile Number '
+            "
+            [FormConterName]="'mobile'"
+            [InputClass]="'form-control '"
+            [Id]="'mobile'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="true"
+            [isFocused]="false"
+            [inputmax]="11"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+          <div *ngIf="!phoneIsRight" class="text-danger fw-bold">
+            {{ phoneError }}
+          </div>
+        </div>
+        <!-- <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? '  موظف النظام ' : 'super user'
+            "
+            [LabelFor]="'is_superuser'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'is_superuser'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'is_superuser'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="isActiveList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'id'"
+            [viewKeyAr]="'val_Ar'"
+            [viewKeyEn]="'val_En'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div> -->
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? 'تفعيل الموظف ' : 'Active User'
+            "
+            [LabelFor]="'is_active'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'is_active'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'is_active'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="isActiveList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'id'"
+            [viewKeyAr]="'val_Ar'"
+            [viewKeyEn]="'val_En'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+        <!-- <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' الموظف تحصيل ' : 'stuff user'
+            "
+            [LabelFor]="'is_staff'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'is_staff'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'is_staff'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="isActiveList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'id'"
+            [viewKeyAr]="'val_Ar'"
+            [viewKeyEn]="'val_En'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div> -->
+        <!-- <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' ادمن ' : 'Admin User'
+            "
+            [LabelFor]="'is_admin'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'is_admin'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'is_staff'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="isActiveList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'id'"
+            [viewKeyAr]="'val_Ar'"
+            [viewKeyEn]="'val_En'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div> -->
+
+        <div class="col-5 col-sm-12 col-xs-12">
+          <div
+            formArrayName="groups"
+            class="d-flex w-100"
+            *ngFor="let control of groups.controls; let i = index"
+          >
+            <div class="form-group mb-2 w-75">
+              <app-label
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? ' الجروب ' : 'Group'
+                "
+                [LabelFor]="'per'"
+              >
+              </app-label>
+              <app-dp-single-select
+                [Placeholder]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'برجاء الاختيار'
+                    : 'Please select'
+                "
+                [FormConterName]="'per'"
+                [InputClass]="'form-control form-select'"
+                [Id]="'per'"
+                [FormParent]="control"
+                [disable]="false"
+                [isClicked]="false"
+                [isChanges]="false"
+                [Options]="holListOfGroups"
+                [Lang]="getCurrentLanguage()"
+                [returnKey]="'id'"
+                [viewKeyAr]="'name'"
+                [viewKeyEn]="'name'"
+                (callBack)="handleInputCallback($event)"
+              >
+              </app-dp-single-select>
+            </div>
+            <button
+              class="btn btn-outline-danger w-16 h-50 mt-4"
+              (click)="removeGroups(i)"
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-info col-1 h-50 mt-4"
+          (click)="addNewGroups()"
+        >
+          +
+        </button>
+      </form>
+      <div
+        class="alert alert-danger"
+        *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+      >
+        <strong>{{
+          getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+        }}</strong>
+        {{
+          getCurrentLanguage() == "ar"
+            ? "هل تريد حذف؟"
+            : "Do you want to delete?"
+        }}
+      </div>
+    </div>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

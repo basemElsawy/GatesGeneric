@@ -1,0 +1,307 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="
+    getCurrentLanguage() == 'ar' ? 'متابعة الموازين' : 'ًWeights tracking'
+  "
+  (listOdData)="handlListOfData($event)"
+  [update]="updateApi | async"
+>
+  <div class="w-100" header>
+    <form [formGroup]="searchForm">
+      <div class="row">
+        <div class="col-md-4">
+          <label>المحافظات</label>
+          <select
+            class="form-select form-control"
+            formControlName="id"
+            (change)="getAllResults($event)"
+          >
+            <option value="allGovs">عرض الكل</option>
+            <option *ngFor="let govs of Governroates" [value]="govs.gov_id">
+              {{ govs.gov_name_ar }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div body *ngIf="showInitialData">
+    <div class="row m-auto justify-content-start" *ngIf="isEmpty">
+      <div
+        class="col-xl-4 col-md-3 col-sm-12 p-2 my-2"
+        *ngFor="let item of holdListOfSystemView | async"
+      >
+        <div class="card-header d-none"></div>
+        <div class="card-body card-border mx-2 bg-lime">
+          <div>
+            <app-table
+              [tableClass]="
+                'table table-striped table-responsive background-blue'
+              "
+              [tableHeaderList]="listOfStatusHeader"
+              [tableHeadderClass]="'fw-lighter small  text-primary'"
+              [tableBodyList]="[item]"
+              [isEditable]="false"
+              [isDeleteble]="false"
+              [isShowing]="false"
+              [listofObject]="listOfInfoHeader"
+            >
+            </app-table>
+          </div>
+          <hr />
+          <div>
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'رقم الوردية' : 'Shift No'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+
+              <app-inline-text
+                [showValue]="item.shift_id ? item.shift_id : ''"
+                [Class]="' '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'اسم المستخدم' : 'User Name'
+                "
+                [LabelFor]="''"
+              ></app-label>
+
+              <app-inline-text
+                [showValue]="item.full_name ? item.full_name : ''"
+                [Class]="' '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'تاريخ فتح لوردية'
+                    : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <!--                  item.shift_open_date
+                    | date : ('dd-MM-yyyy | h:mm' ? item.shift_open_date : '')
+-->
+              <app-inline-text
+                [showValue]="item.shift_open_date | date : 'dd-MM-yyyy  h:mm'"
+                [Class]="'  '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'تاريخ اخر عملية'
+                    : 'Date open Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+
+              <app-inline-text
+                [showValue]="
+                  item.last_transaction_date | date : 'dd-MM-yyyy h:mm'
+                "
+                [Class]="''"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'fw-bold h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'اجمالي الموازين'
+                    : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <app-inline-text
+                [showValue]="item.total_overweight ? item.total_overweight : ''"
+                [Class]="'  '"
+              ></app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-around">
+              <!--total_price-->
+              <app-label
+                [LabelClass]="'fw-bold h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'الاجمالي' : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+
+              <app-inline-text
+                [showValue]="item.total_price ? item.total_price : ''"
+                [Class]="'  '"
+              >
+              </app-inline-text>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div body *ngIf="isSearchByGov">
+    <div class="row m-auto justify-content-start">
+      <div
+        class="col-xl-4 col-md-3 col-sm-12 p-2 my-2"
+        *ngFor="let item of searchByGovData"
+      >
+        <div class="card-header d-none"></div>
+        <div class="card-body card-border mx-2 bg-lime">
+          <div>
+            <app-table
+              [tableClass]="
+                'table table-striped table-responsive background-blue'
+              "
+              [tableHeaderList]="searchlistOfStatusHeader"
+              [tableHeadderClass]="'fw-lighter small  text-primary'"
+              [tableBodyList]="[item]"
+              [isEditable]="false"
+              [isDeleteble]="false"
+              [isShowing]="false"
+              [listofObject]="searchlistOfInfoHeader"
+            >
+            </app-table>
+          </div>
+          <hr />
+          <div>
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'رقم الوردية' : 'Shift No'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+
+              <app-inline-text
+                [showValue]="item.shift_id ? item.shift_id : ''"
+                [Class]="' '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'اسم المستخدم' : 'User Name'
+                "
+                [LabelFor]="''"
+              ></app-label>
+
+              <app-inline-text
+                [showValue]="item.full_name ? item.full_name : ''"
+                [Class]="' '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'تاريخ فتح لوردية'
+                    : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <!--                  item.shift_open_date
+                    | date : ('dd-MM-yyyy | h:mm' ? item.shift_open_date : '')
+-->
+              <app-inline-text
+                [showValue]="item.shift_open_date | date : 'dd-MM-yyyy  h:mm'"
+                [Class]="'  '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6 fw-bold'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'تاريخ اخر عملية'
+                    : 'Date open Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+
+              <app-inline-text
+                [showValue]="
+                  item.last_transaction_date | date : 'dd-MM-yyyy h:mm'
+                "
+                [Class]="''"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'fw-bold h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'اجمالي الموازين'
+                    : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <app-inline-text
+                [showValue]="item.total_overweight ? item.total_overweight : ''"
+                [Class]="'  '"
+              ></app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-around">
+              <!--total_price-->
+              <app-label
+                [LabelClass]="'fw-bold h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'الاجمالي' : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+
+              <app-inline-text
+                [showValue]="item.total_price ? item.total_price : ''"
+                [Class]="'  '"
+              >
+              </app-inline-text>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-structure-components>

@@ -1,0 +1,69 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+
+@import "~bootstrap/scss/bootstrap";
+@import "~ngx-toastr/toastr";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@font-face {
+  font-family: "Noto Kufi Arabic";
+  src: local("Noto Kufi Arabic"),
+    url(./assets/static/NotoKufiArabic-Medium.ttf) format("truetype");
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box !important;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #edf2fcd6;
+  font-family: "Noto Kufi Arabic", sans-serif;
+  overflow: hidden;
+}
+.card-blur {
+  background-color: #ffffff85 !important;
+}
+
+.webcam-wrapper video.mirrored {
+  transform: translateX(3%) scaleX(2) !important;
+}
+
+input[type="text"][disabled] {
+  color: red !important;
+  font-weight: bold;
+  background: rgba(247, 245, 245, 0);
+}
+
+@media screen and (max-width: 350px) {
+  .w-28-rem {
+    width: 28rem;
+  }
+  .card-body {
+    min-width: fit-content;
+  }
+  .col-xs-12 {
+    width: 100%;
+  }
+}
+
+.search-button {
+  position: relative !important;
+  top: 3px !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.add-btn {
+  border-radius: 0px !important;
+}

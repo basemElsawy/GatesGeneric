@@ -1,0 +1,172 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'المجموعات' : 'Groups'"
+  [endPointUrl]="'user/groups/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'name'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="'table table-striped table-responsive background-blue'"
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isShowing]="false"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      [isList]="true"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة مجموعة" : "Add Groups" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل مجموعة" : "Add Groups" }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{ getCurrentLanguage() == "ar" ? "حذف مجموعة" : "delete Groups" }}
+    </h4>
+  </div>
+  <div body>
+    <div>
+      <form
+        class="row"
+        [formGroup]="f"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم مجموعة '
+                : 'Permissin Name Ar'
+            "
+            [LabelFor]="'name'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' اسم مجموعة ' : 'Group Name Ar'
+            "
+            [FormConterName]="'name'"
+            [InputClass]="'form-control '"
+            [Id]="'name'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+        <div class="col-5 col-sm-12">
+          <div
+            formArrayName="permissions"
+            class="d-flex w-100"
+            *ngFor="let control of permissions.controls; let i = index"
+          >
+            <div class="form-group mb-2 w-75">
+              <app-label
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? ' الصلاحية '
+                    : 'Permissin Name En'
+                "
+                [LabelFor]="'codename'"
+              >
+              </app-label>
+              <app-dp-single-select
+                [Placeholder]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'برجاء الاختيار'
+                    : 'Please select'
+                "
+                [FormConterName]="'per'"
+                [InputClass]="'form-control form-select'"
+                [Id]="'permission'"
+                [FormParent]="control"
+                [disable]="false"
+                [isClicked]="false"
+                [isChanges]="false"
+                [Options]="holListOfPermission"
+                [Lang]="getCurrentLanguage()"
+                [returnKey]="'id'"
+                [viewKeyAr]="'name'"
+                [viewKeyEn]="'codename'"
+                (callBack)="handleInputCallback($event)"
+              >
+              </app-dp-single-select>
+            </div>
+            <button
+              class="btn btn-outline-danger w-16 h-50 mt-4"
+              (click)="removePermission(i)"
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-info col-1 h-50 mt-4"
+          (click)="addNewPermission()"
+        >
+          +
+        </button>
+      </form>
+      <div
+        class="alert alert-danger"
+        *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+      >
+        <strong>{{
+          getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+        }}</strong>
+        {{
+          getCurrentLanguage() == "ar"
+            ? "هل تريد حذف؟"
+            : "Do you want to delete?"
+        }}
+      </div>
+    </div>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

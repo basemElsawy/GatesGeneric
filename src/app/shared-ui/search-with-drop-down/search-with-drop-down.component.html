@@ -1,0 +1,71 @@
+<form
+  class="d-flex justify-content-start align-items-end"
+  [formGroup]="searchForm"
+>
+  <div class="form-group mx-1">
+    <app-label
+      [LabelValue]="'حالة الطريق'"
+      [LabelClass]="'mx-auto p-2'"
+      [LabelFor]="'searchOne'"
+    >
+    </app-label>
+    <app-dp-single-select
+      [Placeholder]="'الطرق'"
+      [FormConterName]="'searchOne'"
+      [InputClass]="'form-control  form-select form-selectx ar'"
+      [Id]="'searchOne'"
+      [FormParent]="searchForm"
+      [disable]="false"
+      [isClicked]="false"
+      [isChanges]="true"
+      [Options]="OptionOne"
+      [Lang]="'ar'"
+      [returnKey]="'road_id'"
+      [viewKeyAr]="'road_name_ar'"
+      [viewKeyEn]="'road_name_en'"
+      (callBack)="submitFilter($event)"
+    >
+    </app-dp-single-select>
+  </div>
+  <div class="form-group mx-1">
+    <app-label
+      [LabelValue]="'البوابات'"
+      [LabelClass]="'mx-auto p-2'"
+      [LabelFor]="'searchTwo'"
+    >
+    </app-label>
+    <app-dp-single-select
+      [Placeholder]="'البوابات'"
+      [FormConterName]="'searchTwo'"
+      [InputClass]="'form-control form-select form-selectx ar'"
+      [Id]="'searchTwo'"
+      [FormParent]="searchForm"
+      [disable]="false"
+      [isClicked]="false"
+      [isChanges]="true"
+      [Options]="OptionTwo"
+      [Lang]="'ar'"
+      [returnKey]="'gate_id'"
+      [viewKeyAr]="'gate_name_ar'"
+      [viewKeyEn]="'gate_name_en'"
+      (callBack)="submitFilter()"
+    >
+    </app-dp-single-select>
+  </div>
+
+  <app-button
+    [btnClass]="'mx-2 btn btn-outline-primary rounded-pill add-btn'"
+    [fontAwesomeClass]="'fab fa-searchengin h5'"
+    [btnText]="'بحث'"
+    (CallBack)="handleBtnRes()"
+  ></app-button>
+  <!-- <div class="form-group mx-1">
+    <app-label [LabelValue]="'الحارات'" [LabelClass]="'mx-auto p-2'" [LabelFor]="'searchThird'">
+    </app-label>
+    <app-dp-single-select [Placeholder]="'الحارات'" [FormConterName]="'searchThird'"
+      [InputClass]="'form-control form-select form-selectx ar'" [Id]="'searchThird'" [FormParent]="searchForm"
+      [disable]="false" [isClicked]="false" [isChanges]="true" [Options]="OptionThree" [Lang]="'ar'"
+      [returnKey]="'lane_id'" [viewKeyAr]="'lane_code'" [viewKeyEn]="'lane_code'" (callBack)="submitFilter()">
+    </app-dp-single-select>
+  </div> -->
+</form>

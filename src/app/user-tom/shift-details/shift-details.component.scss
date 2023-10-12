@@ -1,0 +1,262 @@
+.logo{
+  height:100vh;
+  width:100vw;
+  background:url("../../../assets/logo.jpg") no-repeat center;
+  background-blend-mode: color-burn;
+ background-size: cover;
+}
+
+.col-md-2{
+  box-shadow: 7px 3px 18px -10px #000;
+}
+
+.card-img-top{
+  height: 180px;
+}
+
+
+.cardstyle {
+  padding: 15px;
+  height: auto;
+  max-height: 350px;
+  border-radius: 15px;
+  box-shadow: 0px 6px 6px -2px #c1c1c1;
+  width: 122px;
+  height: 122px;
+}
+
+p{
+  margin-top: -8px;
+    margin-bottom: 0 !important;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.img-fit{
+  height: 60px;
+  width: 80px;
+}
+
+
+
+
+.locked-img{
+  height: 75px;
+  position: fixed;
+  top: 68%;
+  right: 93%;
+  width: 75px;
+}
+
+
+
+
+.total{
+  position: relative;
+  z-index: 1;
+  right: 125%;
+  top: 70px;
+
+ }
+
+.separator
+{
+  height: 20px;
+  width: 20px;
+  color:#000;
+}
+
+// span{
+//   margin-left: auto;
+//     margin-right: auto;
+//     text-align: center;
+//     display: block;
+// }
+
+.card-body{
+  padding: 0;
+  margin-top: 10px;
+}
+
+
+.parent-camera{
+  position: relative;
+  min-height: 450px;
+}
+
+.camera-postion{
+  position: absolute;
+  top: 0;
+  left: 73%;
+  max-width: 0;
+  height: 85%;
+}
+
+
+.sperator-postion{
+  position: relative;
+  z-index: 1;
+  right: 105%;
+  top: 70px;
+  width: 38%;
+  margin: 0px 6rem;
+}
+.amount-price{
+  margin:0px 25%;
+}
+
+@media (max-width: 996px){
+  .camera-postion{
+    position: relative;
+    top: 0;
+  left: 90%;
+}
+}
+
+
+* {
+  font-size: 16px;
+  font-family: 'Times New Roman';
+}
+
+
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+
+.centered {
+  text-align: center;
+  align-content: center;
+}
+
+.ticket {
+  width: 155px;
+  max-width: 155px;
+}
+
+img {
+  max-width: inherit;
+  width: inherit;
+}
+// .ticket{
+//   display:none;
+// }
+
+@media print {
+
+  // table, tr, td {
+  //   border: 3px solid red;
+  // }
+  // tr.noBorder td {
+  //   border: 0;
+  // }
+
+  table {
+    border-collapse: separate !important;
+    border-spacing: 0 15px;
+    border: none !important;
+    margin-top: -25px;
+  }
+
+
+
+  th,
+  td {
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+    vertical-align: middle;
+  }
+
+  .td-new{
+    border: none !important;
+    padding : 0 !important;
+    vertical-align: middle;
+    text-align : center;
+  }
+
+
+  .row{
+    line-height: 30px;
+    margin:0;
+  }
+.col-md-12{
+  padding : 0 !important;
+}
+ .new-span{
+  border: 1px solid;
+    padding: 1px;
+ }
+
+  .mt0{
+    margin-top: 0 !important;
+  }
+  @page{
+    margin: 0 !important;
+  }
+  .container{
+    display: none;
+  }
+  .ticket{
+    display:block;
+  }
+  .hidden-print,
+  .hidden-print * {
+      display: none !important;
+  }
+
+  * {
+    font-size: 12px;
+    font-family: 'Times New Roman';
+    font-weight: bold;
+  }
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 0.1px;
+    text-align: left;
+  }
+
+  .centered {
+    text-align: center;
+    align-content: center;
+  }
+
+  .ticket {
+    margin-right: auto;
+    margin-left: auto;
+    width: 273px !important;
+    max-width: 280px !important;
+  }
+
+  .td-values{
+    padding : 0 !important;
+    text-align: center
+  }
+.printValue{
+  font-weight:bold;
+   text-align:right;
+   font-size: 10px ;
+}
+  img {
+    margin-bottom: 9px;
+  }
+
+  .new-imgStyle{
+    width: 28%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+}

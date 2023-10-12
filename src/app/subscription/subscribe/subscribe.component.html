@@ -1,0 +1,13 @@
+<app-structure-components
+  [titles]="
+    getCurrentLanguage() == 'ar'
+      ? ' الاستعلام عن الاشتراكات '
+      : 'Add subscription'
+  "
+  [endPointUrl]="''"
+  class="text-end"
+>
+  <div body dir="rtl">
+    <div class="container"></div>
+  </div>
+</app-structure-components>

@@ -1,0 +1,23 @@
+<div [formGroup]="FormParent" *ngIf="FormParent && FormConterName != null">
+  <select
+    [class]="InputClass"
+    [id]="Id"
+    [formControlName]="FormConterName"
+    (click)="isClicked ? handleOnClick($event) : null"
+    (change)="isChanges ? handleOnChange($event) : null"
+  >
+    <option [ngValue]="null" disabled>{{ Placeholder }}</option>
+    <option [ngValue]="op[returnKey]" *ngFor="let op of Options">
+      {{ Lang == "ar" ? op[viewKeyAr] : op[viewKeyAr] }}
+    </option>
+  </select>
+</div>
+
+<app-error-input
+  *ngIf="FormParent && FormConterName"
+  [FormParent]="FormParent"
+  [FormConterName]="FormConterName"
+  [Lang]="Lang"
+></app-error-input>
+<!-- <app-option [returnKey]="returnKey" [viewKeyAr]="viewKeyAr" [viewKeyEn]="viewKeyEn" [listOfOptions]="Options"
+    [Lang]="Lang"></app-option> -->

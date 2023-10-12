@@ -1,0 +1,31 @@
+<div [formGroup]="FormParent" *ngIf="FormParent && FormConterName">
+  <input
+    [type]="Type"
+    [class]="InputClass"
+    [placeholder]="Placeholder | translate"
+    [id]="Id"
+    [maxlength]="inputmax"
+    [formControlName]="FormConterName"
+    (click)="isClicked ? handleOnClick($event) : null"
+    (change)="isChanges ? handleOnChange($event) : handleFile($event)"
+    (focusout)="isFocused ? handleOnFocus($event) : null"
+  />
+</div>
+<div *ngIf="!FormParent && !FormConterName">
+  <input
+    [type]="Type"
+    [disabled]="disable"
+    [value]="userValue"
+    [class]="InputClass"
+    [placeholder]="Placeholder | translate"
+    [id]="Id"
+    (click)="isClicked ? handleOnClick($event) : null"
+    (change)="isChanges ? handleOnChange($event) : handleFile($event)"
+  />
+</div>
+<app-error-input
+  *ngIf="FormParent && FormConterName"
+  [FormParent]="FormParent"
+  [FormConterName]="FormConterName"
+  [Lang]="'ar'"
+></app-error-input>

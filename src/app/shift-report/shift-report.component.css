@@ -1,0 +1,33 @@
+.img-holder {
+    width: 11%;
+}
+
+
+@media print {
+    body {
+        page-break-after: avoid;
+        page-break-before: avoid;
+        height: auto;
+    }
+
+    .break {
+        page-break-after: avoid !important;
+    }
+
+    .print:last-child {
+        page-break-after: auto;
+    }
+
+    * {
+        overflow-x: hidden !important;
+    }
+
+    /* .col-3 {
+        margin: 0;
+        padding: 0;
+    } */
+
+    /* tr, th {
+        text-align: center;
+    } */
+}

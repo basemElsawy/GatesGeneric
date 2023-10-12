@@ -1,0 +1,117 @@
+<table [class]="tableClass">
+  <thead>
+    <tr>
+      <th
+        class="text-center table-headline"
+        [class]="tableHeadderClass"
+        *ngFor="let head of tableHeaderList"
+      >
+        {{ head.ar }}
+      </th>
+    </tr>
+  </thead>
+  <tbody *ngIf="tableBodyList">
+    <tr *ngFor="let row of tableBodyList; let i = index">
+      <td class="text-center" *ngIf="isHidden">{{ i + 1 }}</td>
+      <td class="text-center" *ngFor="let cell of listofObject">
+        <span *ngIf="cell.isImg == true">
+          <button
+            (click)="isViewed && open(viewImg, row[cell.key])"
+            class="btn btn-outline-info"
+          >
+            <i class="fas fa-image"></i>
+          </button>
+        </span>
+        <span
+          *ngIf="
+            cell.isImg != true &&
+              (cell?.isDate == undefined || cell.isDateTime == undefined);
+            else other_content
+          "
+        >
+          {{ cell.sub ? row[cell.key][cell.sub] : row[cell.key] }}
+        </span>
+
+        <ng-template #other_content>
+          <span
+            *ngIf="
+              cell.isImg != true &&
+              isList != true &&
+              cell.isDateTime == undefined
+            "
+          >
+            {{ row[cell.key] | date : "yyyy/MM/dd" }}</span
+          >
+          <span
+            *ngIf="
+              cell.isImg != true && cell.isDate == undefined && isList != true
+            "
+          >
+            {{ row[cell.key] | date : "yyyy/MM/dd hh:mm" }}</span
+          >
+        </ng-template>
+        <span *ngIf="cell.isList == true">
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              *ngFor="let item of row[cell.key]; let i = index"
+            >
+              <span *ngIf="i < 2">{{
+                cell.sub ? row[cell.key][i][cell.sub] : row[cell.key]
+              }}</span>
+              <span *ngIf="i >= 2">....</span>
+            </li>
+          </ul>
+        </span>
+      </td>
+      <td>
+        <div class="d-flex justify-content-center">
+          <!-- <button *ngIf="isEditable" (click)="handleEitMode(row)">edit</button>
+          <button *ngIf="isDeleteble" (click)="handleDeleiteMode(row)">delete</button> -->
+          <i
+            class="fa-solid fa-pencil text-primary"
+            *ngIf="isEditable"
+            (click)="handleEitMode(row)"
+          >
+          </i>
+          <i
+            class="fa-solid fa-trash text-danger"
+            *ngIf="isDeleteble"
+            (click)="handleDeleiteMode(row)"
+          >
+          </i>
+          <i
+            class="fa-solid fa-calendar-plus text-success"
+            *ngIf="isAdding"
+            (click)="handleAddMode(row)"
+          >
+          </i>
+          <i
+            class="fa-solid fa-file-excel text-warning"
+            *ngIf="isShowing"
+            (click)="handleShowModel(row)"
+          >
+          </i>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="!tableBodyList">
+  <app-empty-table [isEmpty]="!tableBodyList"></app-empty-table>
+</div>
+
+<ng-template #viewImg let-modal>
+  <div class="model-header"></div>
+  <div class="modal-body m-auto">
+    <img src="{{ holdImgToView }}" class="img-fluid" alt="image" />
+  </div>
+  <div class="modal-footer d-flex justify-content-start">
+    <button
+      class="btn btn-outline-danger"
+      (click)="modal.dismiss('Cross click')"
+    >
+      اغلاق
+    </button>
+  </div>
+</ng-template>

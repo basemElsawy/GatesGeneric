@@ -1,0 +1,254 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'فئات المركبات' : 'Vehicle Classes'"
+  [endPointUrl]="'car/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'car_classe_Name_Ar'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isShowing]="true"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      (callbackShow)="handleShowLane($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{
+        getCurrentLanguage() == "ar" ? "اضافة فئة للمركبة" : "Add vehicle class"
+      }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{
+        getCurrentLanguage() == "ar" ? "تعديل فئة المركبة" : "Add vehicle class"
+      }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "حذف فئة المركبة"
+          : "delete vehicle class"
+      }}
+    </h4>
+
+    <h4 *ngIf="isShowModel">
+      {{ getCurrentLanguage() == "ar" ? "صورة الفئة" : "car class image" }}
+    </h4>
+  </div>
+  <div body>
+    <form
+      class="row"
+      [formGroup]="vehicleClassForm"
+      *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+    >
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar'
+              ? ' اسم فئة المركبة بالعربي '
+              : 'Vehicle Class Name Ar'
+          "
+          [LabelFor]="'car_classe_Name_Ar'"
+        >
+        </app-label>
+
+        <app-input-text
+          [Type]="'text'"
+          [Placeholder]="
+            getCurrentLanguage() == 'ar'
+              ? ' اسم فئة المركبة بالعربي '
+              : 'Vehicle Class Name Ar'
+          "
+          [FormConterName]="'car_classe_Name_Ar'"
+          [InputClass]="'form-control '"
+          [Id]="'car_classe_Name_Ar'"
+          [FormParent]="vehicleClassForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-input-text>
+      </div>
+
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar'
+              ? 'اسم فئة المركبة بالانجليزية'
+              : 'Vehicle Class Name En'
+          "
+          [LabelFor]="'car_classe_Name_En'"
+        >
+        </app-label>
+        <app-input-text
+          [Type]="'text'"
+          [Placeholder]="
+            getCurrentLanguage() == 'ar'
+              ? 'ادخل الادارة بالانجليزي'
+              : 'Enter Main Actor En'
+          "
+          [FormConterName]="'car_classe_Name_En'"
+          [InputClass]="'form-control '"
+          [Id]="'car_classe_Name_En'"
+          [FormParent]="vehicleClassForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-input-text>
+      </div>
+
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar'
+              ? 'حالة فئة المركبة'
+              : 'Vehicle Class Status'
+          "
+          [LabelFor]="'status_id'"
+        >
+        </app-label>
+        <app-dp-single-select
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+          "
+          [FormConterName]="'status_id'"
+          [InputClass]="'form-control form-select'"
+          [Id]="'status_id'"
+          [FormParent]="vehicleClassForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          [Options]="holdRoadStatusList"
+          [Lang]="getCurrentLanguage()"
+          [returnKey]="'status_id'"
+          [viewKeyAr]="'status_name_ar'"
+          [viewKeyEn]="'status_name_en'"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-dp-single-select>
+      </div>
+
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+          [LabelFor]="'note'"
+        >
+        </app-label>
+        <app-input-text
+          [Type]="'text'"
+          [Placeholder]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+          [FormConterName]="'note'"
+          [InputClass]="'form-control '"
+          [Id]="'main_actor_En'"
+          [FormParent]="vehicleClassForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-input-text>
+      </div>
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar' ? ' صورة العرض ' : 'Picture'
+          "
+          [LabelFor]="'note'"
+        >
+        </app-label>
+        <app-input-text
+          [Type]="'file'"
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? ' صورة العرض ' : 'Picture'
+          "
+          [FormConterName]="'car_image'"
+          [InputClass]="'form-control '"
+          [Id]="'car_image'"
+          [FormParent]="vehicleClassForm"
+          [disable]="false"
+          [isFile]="true"
+          [isClicked]="false"
+          [isChanges]="true"
+          (callBack)="handleFileUpload($event)"
+          accept=".png, .jpg, .jpeg"
+        >
+          <div>
+            <a *ngIf="isEditMode && showImageLinks" [href]="showImageLinks"
+              >تحميل</a
+            >
+          </div>
+        </app-input-text>
+      </div>
+    </form>
+    <div
+      class="alert alert-danger"
+      *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+    >
+      <strong>{{
+        getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+      }}</strong>
+      {{
+        getCurrentLanguage() == "ar" ? "هل تريد حذف؟" : "Do you want to delete?"
+      }}
+    </div>
+    <div *ngIf="isShowModel == true">
+      <div *ngIf="img == null">
+        <h4 class="text-center alert alert-warning">
+          لا يوجد صورة مرفقة للفئة المحددة
+        </h4>
+      </div>
+      <div *ngIf="img != null">
+        <img [src]="img_url + img" alt="category_img" />
+      </div>
+    </div>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

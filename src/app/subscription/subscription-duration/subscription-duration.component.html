@@ -1,0 +1,84 @@
+<app-structure-components
+  [titles]="
+    getCurrentLanguage() == 'ar' ? ' اضافة مدة للاشتراك ' : 'Add subscription'
+  "
+  [endPointUrl]="''"
+>
+  <div body>
+    <div class="card my-3">
+      <div class="card-body">
+        <form [formGroup]="subscriptionDuration">
+          <div class="row">
+            <div class="col-md-4">
+              <label>نوع الاشتراك</label>
+              <select
+                class="form-select form-control"
+                formControlName="duration_type"
+              >
+                <option
+                  *ngFor="let type of durationTypes"
+                  [ngValue]="type.name"
+                >
+                  {{ type.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label>مدة الاشتراك</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="duration_time"
+              />
+            </div>
+          </div>
+        </form>
+
+        <table class="my-3 table table-responsive table-bordered table-striped">
+          <thead>
+            <th>#</th>
+            <th>المدة</th>
+            <th>نوع المدة</th>
+            <th>تاريخ الاضافة</th>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let data of FetchedData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                {{ data.duration }}
+              </td>
+              <td>
+                {{
+                  data.duration_type == "D"
+                    ? "يوم"
+                    : data.duration_type == "Y"
+                    ? "سنة"
+                    : data.duration_type == "M"
+                    ? "شهر"
+                    : data.duration_type == "W"
+                    ? "اسبوع"
+                    : ""
+                }}
+              </td>
+
+              <td>
+                {{ data.created_at | date : "dd-MM-yyyy" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer text-center">
+        <button
+          class="btn btn-primary rounded-pill"
+          [disabled]="subscriptionDuration.invalid"
+          (click)="addSubscriptionDuration()"
+        >
+          اضافة مدة اشتراك جديدة
+        </button>
+      </div>
+    </div>
+  </div>
+</app-structure-components>

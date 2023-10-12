@@ -1,0 +1,28 @@
+<ng-template #content let-modal>
+  <div class="modal-header" [dir]="Lang =='ar'?'rtl':'ltr'">
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="modal-body" [dir]="Lang =='ar'?'rtl':'ltr'">
+    <ng-content select="[body]"></ng-content>
+  </div>
+  <div class="modal-footer" [dir]="Lang =='ar'?'rtl':'ltr'">
+    <app-button [btnClass]="'btn btn-outline-danger'" [btnText]="Lang =='ar'?'الغاء':'close'"
+      (CallBack)="handleClose()"></app-button>
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</ng-template>
+
+
+<ng-template #content2>
+  <div class="modal-header" [dir]="Lang =='ar'?'rtl':'ltr'">
+    <ng-content select="[headerOne]"></ng-content>
+  </div>
+  <div class="modal-body" [dir]="Lang =='ar'?'rtl':'ltr'">
+    <ng-content select="[bodyOne]"></ng-content>
+  </div>
+  <div class="modal-footer" [dir]="Lang =='ar'?'rtl':'ltr'">
+    <app-button [btnClass]="'btn btn-outline-danger'" [btnText]="Lang =='ar'?'الغاء':'close'"
+      (CallBack)="handleClose()"></app-button>
+    <ng-content select="[footerClose]"></ng-content>
+  </div>
+</ng-template>

@@ -1,0 +1,143 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? ' المحافظات ' : 'Governorates'"
+  [endPointUrl]="'roads/governorate/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'number'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    >
+    </app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="false"
+      (callbackEdit)="editModel($event)"
+    >
+    </app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "اضافة محافظة جديدة"
+          : "Add new governorate"
+      }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{
+        getCurrentLanguage() == "ar" ? "تعديل محافظة " : "Update governorate"
+      }}
+    </h4>
+  </div>
+
+  <div body>
+    <form [formGroup]="Governoratesform" *ngIf="isNewMode || isEditMode">
+      <div class="row">
+        <div class="form-group mb-2 col-md-6">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم المحافظة باللغة العربية'
+                : 'governorate name ar'
+            "
+            [LabelFor]="'gov_name_ar'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' المحافظة باللغة العربية'
+                : 'Governorate ar'
+            "
+            [FormConterName]="'gov_name_ar'"
+            [InputClass]="'form-control '"
+            [Id]="'gov_name_ar'"
+            [FormParent]="Governoratesform"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم المحافظة باللغة الانجليزية'
+                : 'governorate name ar'
+            "
+            [LabelFor]="'gov_name_en'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' المحافظة باللغة الانجليزية'
+                : 'governorate name en'
+            "
+            [FormConterName]="'gov_name_en'"
+            [InputClass]="'form-control '"
+            [Id]="'gov_name_en'"
+            [FormParent]="Governoratesform"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [disable]="Governoratesform.invalid"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

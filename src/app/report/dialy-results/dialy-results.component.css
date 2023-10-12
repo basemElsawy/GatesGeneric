@@ -1,0 +1,43 @@
+.img-holder {
+  width: 11%;
+}
+
+.v-none {
+  visibility: hidden;
+}
+
+th {
+  vertical-align: top;
+  text-align: center;
+}
+
+.align-amount {
+  margin-right: 30px;
+}
+
+td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.justify-around {
+  justify-content: space-around !important;
+}
+
+@media print {
+  @page {
+    margin: 0 !important;
+  }
+
+  .break {
+    page-break-after: always;
+  }
+
+  img {
+    margin-top: -35px !important;
+  }
+
+  .text-data {
+    margin-top: -65px;
+  }
+}

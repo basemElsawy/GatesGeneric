@@ -1,0 +1,10 @@
+<div [formGroup]="ParentForm" [class]="Class">
+  <input
+    type="checkbox"
+    [class]="Class"
+    [formControlName]="FormConterName"
+    [id]="FormConterName"
+    [placeholder]="Placeholder"
+    (change)="isChanges ? handleOnChange($event) : null"
+  />
+</div>

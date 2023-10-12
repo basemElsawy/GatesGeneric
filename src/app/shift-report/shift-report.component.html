@@ -1,0 +1,57 @@
+<div class="container">
+  <body>
+    <div class="row my-3">
+      <img class="img-holder" src="../../assets/newLogo.jpeg" />
+    </div>
+
+    <div class="row text-center">
+      <div class="col-3">
+        <label class="fw-bold">اسم المستخدم</label>
+        <p>{{ ReportHeader.username }}</p>
+      </div>
+
+      <div class="col-3">
+        <label class="fw-bold">تاريخ فتح الوردية</label>
+        <p>{{ ReportHeader.openDate | date : "dd-MM-yyyy" }}</p>
+      </div>
+
+      <div class="col-3">
+        <label class="fw-bold">تاريخ غلق الوردية</label>
+        <p>{{ ReportHeader.closeDate | date : "dd-MM-yyyy" }}</p>
+      </div>
+
+      <div class="col-3">
+        <label class="fw-bold">البوابة</label>
+        <p>{{ ReportHeader.gate.gate_name_ar }}</p>
+      </div>
+    </div>
+
+    <table class="table table-responsive table-bordered table-striped">
+      <thead>
+        <th>#</th>
+        <th>عدد الاشتراكات</th>
+        <th>الفئة</th>
+        <th>نوع الاشتراك</th>
+        <th>القيمة</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of ReportHeader.reportData; let i = index">
+          <th>{{ i + 1 }}</th>
+          <th>{{ data.number_of_subscriptions }}</th>
+          <th>{{ data.category }}</th>
+          <th>{{ data.subscription_tupe }}</th>
+          <th>{{ data.price }}</th>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="row d-print-none">
+      <div class="col-md-12 text-center">
+        <button class="btn btn-primary" (click)="printReport()">
+          طباعة التقرير
+        </button>
+      </div>
+    </div>
+    <div class="print"></div>
+  </body>
+</div>

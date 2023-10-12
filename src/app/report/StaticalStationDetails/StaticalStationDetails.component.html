@@ -1,0 +1,45 @@
+<app-structure-components [lang]="getCurrentLanguage()" [endPointUrl]="''" [titles]="
+    getCurrentLanguage() == 'ar'
+      ? ' تقرير باحصائيات المحطة '
+      : 'statistical station report'
+  ">
+  <div class="w-100" header>
+    <app-app-search-report-filter [OptionOne]="holdListOfRoads | async" [OptionTwo]="holdListOfGates | async"
+      [OptionThree]="holdListOfLanes | async" [OptionFour]="holdListOfCategories | async"
+      (callBack)="handleResultOfSearch($event)"></app-app-search-report-filter>
+  </div>
+  <div body>
+    <chart [type]="type" [data]="data" [options]="options"></chart>
+
+
+    <table dir="ltr" class="table table-responsive table-bordered table-striped">
+      <tr *ngFor="let data of lane_details">
+        <td class="b-top"></td>
+        <td class="b-right">النقطة {{data.lane_code}}</td>
+      </tr>
+      <tbody>
+        <tr *ngFor="let x of shift_details">
+          <td>
+            {{x.car_classe_Name_Ar}}
+          </td>
+          <td>
+            {{x.total_cars}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <canvas id="MyChart">{{ chart }}</canvas> -->
+
+    <!-- <canvas
+      baseChart
+      [data]="barChartData"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [type]="'bar'"
+    >
+    </canvas> -->
+  </div>
+
+  <div footer></div>
+</app-structure-components>

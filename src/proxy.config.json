@@ -1,0 +1,7 @@
+{
+  "/*": {
+    "target": "http://10.1.63:82/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

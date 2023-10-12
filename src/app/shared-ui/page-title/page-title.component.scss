@@ -1,0 +1,29 @@
+.hide {
+  background-color: white;
+  width: fit-content !important;
+  color: rgb(88, 88, 88) !important;
+  font-family: "Noto Kufi Arabic";
+  font-size: 24px !important;
+  position: relative;
+  padding: 15px 20px !important;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.203);
+}
+.hide::after {
+  content: "";
+  position: absolute;
+  height: 80%;
+  width: 5px;
+  background-color: #2e5dd3;
+  right: 0px;
+  border-radius: 10px 0px 0px 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media print {
+  .hide {
+    display: none;
+  }
+}

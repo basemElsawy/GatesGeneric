@@ -1,0 +1,149 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'الصلاحيات' : 'Permissin'"
+  [endPointUrl]="'user/permission/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'name'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="'table table-striped table-responsive background-blue'"
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isShowing]="false"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة صلاحيات" : "Add Permissin" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل صلاحيات" : "Add Permissin" }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{ getCurrentLanguage() == "ar" ? "حذف صلاحيات" : "delete Permissin" }}
+    </h4>
+  </div>
+  <div body>
+    <ng-container>
+      <form
+        class="row"
+        [formGroup]="f"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم الصلاحية بالعربي '
+                : 'Permissin Name Ar'
+            "
+            [LabelFor]="'name'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم الصلاحية بالعربي '
+                : 'Permissin Name Ar'
+            "
+            [FormConterName]="'name'"
+            [InputClass]="'form-control '"
+            [Id]="'name'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم الصلاحية بالانجليزية'
+                : 'Permissin Name En'
+            "
+            [LabelFor]="'codename'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? 'ادخل الصلاحية بالانجليزي'
+                : 'Enter Permissin En'
+            "
+            [FormConterName]="'codename'"
+            [InputClass]="'form-control '"
+            [Id]="'codename'"
+            [FormParent]="f"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+      </form>
+      <div *ngIf="(!isNewMode || !isEditMode) && isDeleteMode">
+        <h4 class="alert alert-danger text-center">
+          <strong>{{
+            getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+          }}</strong>
+          {{
+            getCurrentLanguage() == "ar"
+              ? "هل تريد حذف؟"
+              : "Do you want to delete?"
+          }}
+        </h4>
+      </div>
+    </ng-container>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

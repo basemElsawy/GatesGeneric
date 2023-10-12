@@ -1,0 +1,117 @@
+<div class="container mt-5 px-4 py-4 m-auto bg-light">
+  <div>
+    <img class="img-holder" src="../../../assets/newLogo.jpeg" />
+  </div>
+  <div class="row py-1" *ngIf="state">
+    <table class="my-3">
+      <tr>
+        <th>رقم الحارة</th>
+        <td class="border border-secondary border-2 font-14">
+          {{ state.shift_details[0].lane_code }}
+        </td>
+      </tr>
+      <tr>
+        <th>تاريخ فتح الوردية</th>
+        <td class="border border-secondary border-2 font-14">
+          {{ state.shift[0].created_at | date : "dd-MM-yyyy" }}
+        </td>
+      </tr>
+      <tr>
+        <th>تاريخ و وقت غلق الوردية</th>
+        <td class="border border-secondary border-2 font-14">
+          {{ state.shift[0].shift_close_date | date : "dd-MM-yyy h:mm" }}
+        </td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>اسم المحصل</th>
+        <td class="border border-secondary border-2 font-14">
+          {{
+            state.shift[0].user_id.first_name +
+              " " +
+              state.shift[0].user_id.last_name
+          }}
+        </td>
+      </tr>
+      <tr>
+        <th>اسم القائم بالجرد</th>
+        <td class="border border-secondary border-2 font-14">Client 1</td>
+      </tr>
+    </table>
+    <div class="border border-secondary border-2 mt-1 font-12">
+      بيان بانواع التعريفات و قيمتها و الاجمالي بعد انتهاء الفترة العمل
+    </div>
+    <table class="border table table-bordered border-secondary border-2 mt-1">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>فئة السيارة</th>
+          <th>القيمة</th>
+          <th>العدد</th>
+          <th>الاجمالي</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let shift of state.shift_details; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ shift.car_classe_name_ar }}</td>
+          <td>{{ +shift.Total_Price / +shift.ticket_count }}</td>
+          <td>{{ shift.ticket_count }}</td>
+          <td>{{ shift.Total_Price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row py-1 align-items-center">
+    <div class="col-6 font-14">حصيلة فترة العمل</div>
+    <div class="col-3 border border-secondary border-2">
+      {{ state.shift_revenue }}
+    </div>
+    <div class="col-3">
+      <p>جنية</p>
+    </div>
+  </div>
+
+  <hr />
+  <div class="row py-1">
+    <table class="border table table-bordered border-secondary border-2">
+      <thead>
+        <tr>
+          <th>م</th>
+          <th>توقيتات الاستقطاع</th>
+          <th>القيمة المستقطعة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let shiftInfo of state.shift_dediction_detials; let i = index"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ shiftInfo.created_at | date : "hh:mm yyyy-MM-dd" }}</td>
+          <td>{{ shiftInfo.shift_dediction_amount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row py-1 align-items-center">
+    <div class="col-6 font-14">اجمالي التحصيل الجزئي</div>
+    <div class="col-3 border border-secondary border-2">
+      {{ state.shift_dediction_total }}
+    </div>
+    <div class="col-3">
+      <p>جنية</p>
+    </div>
+  </div>
+  <hr />
+  <div class="row py-1 align-items-center">
+    <div class="col-6 font-14">محتوي درج التحصيل بعد انتهاء فترة العمل</div>
+    <div class="col-3 border border-secondary">
+      {{ state.shift_revenue - state.shift_dediction_total }}
+    </div>
+    <div class="col-3">
+      <p>جنية</p>
+    </div>
+  </div>
+</div>
+<div class="break"></div>

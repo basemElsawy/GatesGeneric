@@ -1,0 +1,195 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'متابعة النظام' : 'system '"
+  [endPointUrl]="'roads/roads/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="w-100" header>
+    <app-search-with-drop-down
+      [OptionOne]="holdListOfRoads | async"
+      [OptionTwo]="holdListOfGates | async"
+      [OptionThree]="holdListOfLanes | async"
+      (callBack)="handleResultOfSearch($event)"
+    >
+    </app-search-with-drop-down>
+  </div>
+  <div body>
+    <div class="row m-auto justify-content-start" *ngIf="isEmpty">
+      <div
+        class="col-xl-4 col-md-3 col-sm-12 p-2 my-2"
+        *ngFor="let item of holdListOfSystemView | async"
+      >
+        <div class="card-header d-none"></div>
+        <div class="card-body card-broder mx-2 bg-lime">
+          <div class="">
+            <app-table
+              [tableClass]="
+                'table table-striped table-responsive background-blue'
+              "
+              [tableHeaderList]="listOfStatusHeader"
+              [tableBodyList]="[item.lane]"
+              [tableHeadderClass]="'fw-lighter small  text-primary'"
+              [listofObject]="listOfInfoHeader"
+              [isEditable]="false"
+              [isDeleteble]="false"
+              [isShowing]="false"
+              (callbackEdit)="editModel($event)"
+              (callbackDelete)="deleteModel($event)"
+              (callbackShow)="handleShowLane($event)"
+            ></app-table>
+          </div>
+          <hr />
+
+          <div class=" ">
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'رقم الوردية' : 'Shift No'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <app-inline-text
+                [showValue]="
+                  item.lane.shift_id ? item.lane.shift_id.shift_id : ''
+                "
+                [Class]="' '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="' h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar' ? 'اسم المستخدم' : 'User Name'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <app-inline-text
+                [showValue]="
+                  item.lane.user_id
+                    ? item.lane.user_id.last_name +
+                      ' ' +
+                      item.lane.user_id.middle_name +
+                      ' ' +
+                      item.lane.user_id.first_name
+                    : ''
+                "
+                [Class]="'   '"
+              >
+              </app-inline-text>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="' h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'تاريخ فتح  الوردية'
+                    : 'Date open  Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <app-inline-text
+                [showValue]="
+                  item.lane.created_Custom ? item.lane.created_Custom : ''
+                "
+                [Class]="'  '"
+              >
+              </app-inline-text>
+            </div>
+            <div class="d-flex justify-content-between">
+              <app-label
+                [LabelClass]="'h6'"
+                [LabelValue]="
+                  getCurrentLanguage() == 'ar'
+                    ? 'تاريخ غلق الوردية'
+                    : 'Date of close Shift'
+                "
+                [LabelFor]="''"
+              >
+              </app-label>
+              <app-inline-text
+                [showValue]="
+                  item.lane.shift_id ? item.lane.shift_id.ShiftClose : ''
+                "
+                [Class]="' '"
+              >
+              </app-inline-text>
+            </div>
+          </div>
+          <hr />
+
+          <div class=" ">
+            <app-table
+              [tableClass]="
+                'table table-striped table-responsive background-blue'
+              "
+              [tableHeaderList]="listOfGateHeader"
+              [tableBodyList]="item.detials"
+              [tableHeadderClass]="'fw-normal p text-primary'"
+              [listofObject]="listOfHeader"
+              [isEditable]="false"
+              [isDeleteble]="false"
+              [isShowing]="false"
+              (callbackEdit)="editModel($event)"
+              (callbackDelete)="deleteModel($event)"
+              (callbackShow)="handleShowLane($event)"
+            ></app-table>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <app-button
+              [btnClass]="'btn btn-outline-danger'"
+              [btnText]="
+                getCurrentLanguage() == 'ar' ? 'عرض التفاصيل' : 'Show Details'
+              "
+              (CallBack)="
+                showTableDetails(
+                  item.lane.shift_id ? item.lane.shift_id.shift_id : 0
+                )
+              "
+            >
+            </app-button>
+          </div>
+        </div>
+        <div class="card-footer d-none"></div>
+      </div>
+    </div>
+    <app-empty-table
+      [isEmpty]="(isEmpty | async) == false || (isEmpty | async) == null"
+    ></app-empty-table>
+  </div>
+
+  <div footer></div>
+</app-structure-components>
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h3>
+      {{ getCurrentLanguage() == "ar" ? "تفاصيل الوردية" : "Details of Shift" }}
+    </h3>
+  </div>
+  <div body>
+    <app-table
+      [tableClass]="'table table-striped table-responsive background-blue'"
+      [tableHeaderList]="listOfDetailsShiftHeader"
+      [tableBodyList]="holdListOfShiftDetails | async"
+      [tableHeadderClass]="'fw-normal p text-primary'"
+      [listofObject]="listOfDetailsVehicleHeader"
+      [isViewed]="true"
+      [isEditable]="false"
+      [isDeleteble]="false"
+      [isShowing]="false"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      (callbackShow)="handleShowLane($event)"
+    >
+    </app-table>
+  </div>
+  <div footer></div>
+</app-model>

@@ -1,0 +1,8 @@
+<button
+  [class]="btnClass"
+  (click)="handleBtnEvent()"
+  [disabled]="disable ? 'disabled' : null"
+>
+  {{ btnText }}
+  <i *ngIf="fontAwesomeClass" [class]="fontAwesomeClass"></i>
+</button>

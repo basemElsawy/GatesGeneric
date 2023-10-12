@@ -1,0 +1,101 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'سعر الكيلو' : 'Kilo price'"
+  (listOdData)="handlListOfData($event)"
+  [endPointUrl]="'weights/kilo-price/'"
+  [update]="updateApi | async"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'number'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="false"
+      (callbackEdit)="editModel($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة سعر الكيلو" : "Kilo price" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل سعر الكيلو" : "Kilo price" }}
+    </h4>
+  </div>
+
+  <div body>
+    <form
+      class="row"
+      class="row"
+      [formGroup]="kiloPriceForm"
+      *ngIf="isNewMode || isEditMode"
+    >
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar' ? 'سعر الكيلو' : 'Kilo price'
+          "
+          [LabelFor]="'kilo_price'"
+        ></app-label>
+
+        <app-input-text
+          [Type]="'number'"
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? ' سعر الكيلو' : 'Kilo price'
+          "
+          [FormParent]="kiloPriceForm"
+          [FormConterName]="'kilo_price'"
+          [InputClass]="'form-control '"
+          [Id]="'kilo_price'"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+        >
+        </app-input-text>
+      </div>
+    </form>
+  </div>
+
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [disable]="kiloPriceForm.invalid"
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

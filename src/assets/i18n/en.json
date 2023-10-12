@@ -1,0 +1,22 @@
+{
+  "Input": {
+    "UserName": "User Name",
+    "Password": "Password",
+    "Lane": "Lane",
+    "IsAdmin": "Admin User",
+    "Submit": "Submit",
+    "Search": "Search"
+  },
+  "Error": {
+    "loginInvalid": "Please Check your username and password"
+  },
+  "dayNames": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ]
+}

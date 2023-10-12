@@ -1,0 +1,152 @@
+<app-structure-components
+  [titles]="
+    getCurrentLanguage() == 'ar'
+      ? ' اضافة اسعار للاشتراكات '
+      : 'Add subscription'
+  "
+  [endPointUrl]="''"
+  class="text-end"
+>
+  <div body dir="rtl">
+    <div class="container">
+      <div class="card my-3 border-0">
+        <div class="card-body">
+          <div class="form-group">
+            <form [formGroup]="subscriptionPrices">
+              <div class="row">
+                <div class="col-md-3">
+                  <label> نوع الاشتراك </label>
+                  <select
+                    class="form-select form-control"
+                    formControlName="subscriptionType"
+                  >
+                    <option *ngFor="let data of FetchedData" [value]="data.id">
+                      {{
+                        data.duration_type == "D"
+                          ? "يوم"
+                          : data.duration_type == "Y"
+                          ? "سنة"
+                          : data.duration_type == "M"
+                          ? "شهر"
+                          : data.duration_type == "W"
+                          ? "اسبوع"
+                          : ""
+                      }}
+                      - {{ data.duration }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-3">
+                  <label>فئات المركبات</label>
+                  <select
+                    class="form-control form-select"
+                    formControlName="carClasses"
+                  >
+                    <option
+                      *ngFor="let category of holdListOfCars"
+                      [value]="category.car_classe_id"
+                    >
+                      {{ category.car_classe_Name_Ar }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-3">
+                  <label>البوابة</label>
+                  <select
+                    class="form-control form-select"
+                    formControlName="gates"
+                    (change)="showPriceData($event)"
+                  >
+                    <option
+                      *ngFor="let gate of holdListOfGates"
+                      [value]="gate.gate_id"
+                    >
+                      {{ gate.gate_name_ar }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-3">
+                  <label>السعر</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    formControlName="price"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="my-3" *ngIf="holdDataSubsecriptionResults.length == 0">
+            <h4 class="text-center alert alert-warning">لا يوجد بينات متاحة</h4>
+          </div>
+          <table
+            class="table table-responsive table-bordered table-striped my-3"
+            *ngIf="holdDataSubsecriptionResults.length != 0"
+          >
+            <thead>
+              <th>#</th>
+
+              <th>كود البوابة</th>
+
+              <th>فئة المركبة</th>
+
+              <th>السعر</th>
+
+              <th>نوع الاشتراك</th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let data of holdDataSubsecriptionResults; let i = index"
+              >
+                <td>
+                  {{ i + 1 }}
+                </td>
+                <td>
+                  {{ data.gate_id }}
+                </td>
+
+                <td>{{ data.car_class_id.car_classe_Name_Ar }}</td>
+
+                <td>
+                  {{ data.price }}
+                </td>
+
+                <td>
+                  {{
+                    data.subscription_type.duration_type == "D"
+                      ? "يوم"
+                      : data.subscription_type.duration_type == "Y"
+                      ? "سنة"
+                      : data.subscription_type.duration_type == "M"
+                      ? "شهر"
+                      : data.subscription_type.duration_type == "W"
+                      ? "اسبوع"
+                      : ""
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <button
+                class="btn btn-outline-success rounded-pill"
+                (click)="addSubscriptionPrice()"
+                [disabled]="subscriptionPrices.invalid"
+              >
+                اضافة
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-structure-components>

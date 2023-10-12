@@ -1,0 +1,24 @@
+<div class="mainContainer">
+  <button
+    (click)="showList = !showList"
+    [class]="!isCollapsed ? 'userBtn' : 'userBtn collapsed-user'"
+    [ngClass]="{ 'user-btn-override': isCollapsed }"
+  >
+    <img *ngIf="img && img !== ''" [src]="img" alt="userImg" />
+    <div
+      [class]="!isCollapsed ? 'img' : 'img collapsed-user'"
+      *ngIf="!img || img === ''"
+    >
+      <i class="fa fa-user"></i>
+    </div>
+    <div class="userName" *ngIf="!isCollapsed">
+      <p class="name">{{ name }}</p>
+      <p class="role">{{ role }}</p>
+    </div>
+  </button>
+  <div [class]="isCollapsed ? 'listShow  collapsed-logout' : 'listShow '">
+    <button class="button" (click)="logout()">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.confirm-button {
+  width: 40%;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 30px;
+  margin-top: 25px;
+}
+
+.duration-time {
+  font-size: 25px;
+  margin-top: 30px;
+}
+
+.card-detail {
+  border: 1px solid lightgray;
+  border-radius: 22px;
+}
+
+.card-detail:hover {
+  transition: ease-in-out 2sec;
+  box-shadow: 3px 12px 28px -1px lightgrey;
+}
+
+th, tbody {
+  text-align: center;
+}

@@ -1,0 +1,115 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? ' الاوزان ' : 'Weight codes'"
+  [endPointUrl]="'weights/weight-code/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'number'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="false"
+      (callbackEdit)="editModel($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة نوع موازين" : "Weight Code" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل نوع الموازين" : "Weight Code" }}
+    </h4>
+  </div>
+
+  <div body>
+    <form [formGroup]="weightCode">
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="getCurrentLanguage() == 'ar' ? ' الوصف' : 'description'"
+          [LabelFor]="'number'"
+        >
+        </app-label>
+
+        <app-input-text
+          [Type]="'text'"
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? ' الوصف' : 'description'
+          "
+          [FormConterName]="'description'"
+          [InputClass]="'form-control '"
+          [Id]="'number'"
+          [FormParent]="weightCode"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+        >
+        </app-input-text>
+      </div>
+
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="getCurrentLanguage() == 'ar' ? 'قيمة الوزن' : 'weight'"
+          [LabelFor]="'weight'"
+        >
+        </app-label>
+
+        <app-input-text
+          [Type]="'number'"
+          [Placeholder]="getCurrentLanguage() == 'ar' ? 'قيمة الوزن' : 'weight'"
+          [FormConterName]="'weight'"
+          [InputClass]="'form-control '"
+          [Id]="'weight'"
+          [FormParent]="weightCode"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+        >
+        </app-input-text>
+      </div>
+    </form>
+  </div>
+
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

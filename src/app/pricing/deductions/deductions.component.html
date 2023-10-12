@@ -1,0 +1,320 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="
+    getCurrentLanguage() == 'ar' ? 'جدوال الاستقطاعات' : 'Deductions  Table'
+  "
+  [endPointUrl]="'price/price/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'price_table_name_ar'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isAdding]="true"
+      [isShowing]="true"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      (callbackAdded)="handleAddModelModel($event)"
+      (callbackShow)="handleShowPrice($event)"
+    >
+    </app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model #model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "اضافة جدوال الاستقطاعات "
+          : "Add Deduction Table"
+      }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "تعديل جدوال الاستقطاعات"
+          : "Add Deductions Table"
+      }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "حذف جدوال الاستقطاعات"
+          : "delete Deductions Table"
+      }}
+    </h4>
+    <h4 *ngIf="isAdding">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "اضافة تفاصيل لجدوال الاستقطاعات"
+          : "Add Details to Deductions Table"
+      }}
+    </h4>
+    <h4 *ngIf="isShow">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "عرض تفاصيل لجدوال الاستقطاعات"
+          : "Show Details to Deductions Table"
+      }}
+    </h4>
+  </div>
+  <div body>
+    <ng-container *ngIf="!isAdding && !isShow">
+      <form
+        class="row"
+        [formGroup]="tablePriceForm"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم جدوال الاستقطاعات بالعربي'
+                : 'Deductions Table Name Ar'
+            "
+            [LabelFor]="'price_table_name_ar'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم جدوال الاستقطاعات بالعربي'
+                : 'Deductions Table Name Ar'
+            "
+            [FormConterName]="'price_table_name_ar'"
+            [InputClass]="'form-control '"
+            [Id]="'price_table_name_ar'"
+            [FormParent]="tablePriceForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم جدوال الاستقطاعات  بالانجليزية'
+                : 'Deductions Table Name En'
+            "
+            [LabelFor]="'price_table_name_en'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم جدوال الاستقطاعات  بالانجليزية'
+                : 'Deductions Table Name En'
+            "
+            [FormConterName]="'price_table_name_en'"
+            [InputClass]="'form-control '"
+            [Id]="'price_table_name_en'"
+            [FormParent]="tablePriceForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' تاريخ البداء ' : ' Start Date'
+            "
+            [LabelFor]="'start_date'"
+          >
+          </app-label>
+          <app-input-date
+            [Type]="'Date'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' تاريخ البداء ' : ' Start Date'
+            "
+            [FormConterName]="'start_date'"
+            [InputClass]="'form-control '"
+            [Id]="'start_date'"
+            [FormParent]="tablePriceForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          ></app-input-date>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' تاريخ الانتهاء ' : ' End Date'
+            "
+            [LabelFor]="'end_date'"
+          >
+          </app-label>
+          <app-input-date
+            [Type]="'Date'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' تاريخ الانتهاء ' : ' End Date'
+            "
+            [FormConterName]="'end_date'"
+            [InputClass]="'form-control '"
+            [Id]="'end_date'"
+            [FormParent]="tablePriceForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-date>
+        </div>
+      </form>
+      <div
+        class="alert alert-danger"
+        *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+      >
+        <strong>{{
+          getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+        }}</strong>
+        {{
+          getCurrentLanguage() == "ar"
+            ? "هل تريد حذف؟"
+            : "Do you want to delete?"
+        }}
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isAdding">
+      <form class="row" [formGroup]="priceDetails">
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' فئة المركبة'
+                : '  Vehicle Category'
+            "
+            [LabelFor]="'car_classe_id'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'car_classe_id'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'car_classe_id'"
+            [FormParent]="priceDetails"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="holdListOfCar"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'car_classe_id'"
+            [viewKeyAr]="'car_classe_Name_Ar'"
+            [viewKeyEn]="'car_classe_Name_En'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? ' القيمة ' : '  Amount'
+            "
+            [LabelFor]="'amount'"
+          >
+          </app-label>
+
+          <app-input-number
+            [Type]="'number'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? ' القيمة ' : '  Amount'
+            "
+            [FormConterName]="'amount'"
+            [InputClass]="'form-control '"
+            [Id]="'amount'"
+            [FormParent]="priceDetails"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="true"
+            [step]="'0.01'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-number>
+        </div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="isShow">
+      <app-table
+        [tableClass]="'table table-striped table-responsive'"
+        [tableHeaderList]="listPriceOfHeader"
+        [tableBodyList]="holdListOfPriceDeials | async"
+        [listofObject]="holdListOfPriceDetails"
+        [isEditable]="true"
+        [isDeleteble]="false"
+        [isAdding]="false"
+        [isShowing]="false"
+        (callbackEdit)="handlePriceDetails($event)"
+        (callbackDelete)="deleteModel($event)"
+        (callbackAdded)="handleAddModelModel($event)"
+        (callbackShow)="handleShowPrice($event)"
+      >
+      </app-table>
+    </ng-container>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+      <app-button
+        [btnClass]="'btn btn-outline-warning'"
+        *ngIf="isEditMode"
+        [btnText]="
+          getCurrentLanguage() == 'ar' ? 'حفظ و استنساخ' : 'Save and copy'
+        "
+        (CallBack)="submitRequest()"
+      >
+      </app-button>
+    </div>
+  </div>
+</app-model>

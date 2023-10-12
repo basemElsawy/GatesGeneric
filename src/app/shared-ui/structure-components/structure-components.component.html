@@ -1,0 +1,26 @@
+<div class="container-fluid overflow-auto" [dir]="lang == 'ar' ? 'rtl' : 'ltr'">
+  <div class="row">
+    <app-page-title
+      [titleView]="titles"
+      [TitleClass]="'text-primary m-2 h2 fw-bold p-4 hide'"
+    >
+    </app-page-title>
+  </div>
+  <div class="row w-sc">
+    <div class="col-xl-12 col-md-12 col-12 shown">
+      <div class="card full-content-body" [class]="Class ? Class : ''">
+        <div class="card-header border-bottom-0">
+          <ng-content select="[header]"></ng-content>
+        </div>
+        <div class="card-body min-hieght">
+          <ng-content select="[body]"></ng-content>
+        </div>
+        <div class="card-footer border-top-0">
+          <ng-content select="[footer]"></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-loader></app-loader>

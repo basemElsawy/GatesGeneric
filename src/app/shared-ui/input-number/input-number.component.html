@@ -1,0 +1,7 @@
+<div [formGroup]="FormParent" *ngIf="FormParent && FormConterName ">
+  <input [type]="Type" [class]="InputClass" [placeholder]="Placeholder |translate" [id]="Id"
+    [formControlName]="FormConterName" [step]="step" (click)="isClicked?(handleOnClick($event)):null"
+    (change)="isChanges?(handleOnChange($event)):null">
+</div>
+<app-error-input *ngIf="FormParent && FormConterName " [FormParent]="FormParent" [FormConterName]="FormConterName"
+  [Lang]="'ar'"></app-error-input>

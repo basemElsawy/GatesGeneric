@@ -1,0 +1,149 @@
+<div class="wrapper d-print-none" dir="rtl">
+  <!-- Sidebar  -->
+  <nav class="sidebar" [ngClass]="{ active: isCollapsed }">
+    <div>
+      <div class="sidebar-header">
+        <!-- <h3 class="text-center">Moca Sidebar</h3> -->
+        <div
+          [class]="isCollapsed ? 'side-menu-btn' : 'side-menu-btn bars-active'"
+          (click)="toggleActiveClass()"
+        >
+          <div class="bar top-bar"></div>
+          <div class="bar mid-bar"></div>
+          <div class="bar bottom-bar"></div>
+        </div>
+        <!-- <div
+          [class]="
+            !isCollapsed
+              ? 'img-container'
+              : 'img-container active-image-container'
+          "
+        >
+        <img
+            src="../../../assets/newLogo.png"
+            class="img-logo-collapsed"
+            (click)="toggleActiveClass()"
+            style="cursor: pointer"
+          /> 
+        </div> -->
+        <!-- [ngClass]="{ 'not-visible': isCollapsed }" -->
+
+        <!-- <img
+          src="../../../assets/newLogo.png"
+          class="img-logo-collapsed"
+          [ngClass]="{ 'not-visible': !isCollapsed }"
+          (click)="toggleActiveClass()"
+          style="cursor: pointer"
+        /> -->
+      </div>
+      <app-user-drop-down
+        dir="rtl"
+        class="userDropDown"
+        (toggleOpen)="toggleActiveClass()"
+        [isCollapsed]="isCollapsed"
+      >
+      </app-user-drop-down>
+      <ul class="list-unstyled" [ngClass]="{ 'center-icons': isCollapsed }">
+        <li
+          dir="rtl"
+          class="parent-list-item"
+          *ngFor="let Parent of appRoutes"
+          (click)="linkClicked(Parent)"
+          [ngClass]="{ active: Parent.active }"
+        >
+          <a
+            dir="rtl"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle"
+          >
+            <img
+              *ngIf="Parent.icon"
+              [src]="Parent.icon"
+              class="nav-icon"
+              style="margin-inline-end: 16px"
+              [ngClass]="{ 'nav-icon-active': isCollapsed }"
+              alt="nav-icon"
+            />
+            <span *ngIf="!isCollapsed">{{ Parent.name }}</span>
+            <span *ngIf="!isCollapsed" class="arrow"></span>
+          </a>
+          <ng-container *ngIf="oldItem">
+            <ul
+              #subNav
+              *ngIf="
+                Parent.children &&
+                Parent.children == oldItem.children &&
+                Parent.id == oldItem.id &&
+                !isCollapsed
+              "
+            >
+              <div class="child-list-container">
+                <li
+                  class="child-list overflown"
+                  *ngFor="let child of Parent.children"
+                >
+                  <span
+                    class="activearrow"
+                    *ngIf="
+                      child.active ||
+                      checkActiveRouter(child.route, Parent) ||
+                      child == oldChild
+                    "
+                  ></span>
+                  <!-- if link doesnt have subChildren -->
+                  <a
+                    class="subChild"
+                    *ngIf="child.route"
+                    [routerLink]="child.route"
+                    (click)="onChildClickWithoutSub($event, Parent, child)"
+                    >{{ child.name }}</a
+                  >
+                  <!-- if link contains subChildren -->
+                  <a
+                    class="subChild"
+                    *ngIf="!child.route"
+                    (click)="onChildClick($event, child, Parent)"
+                    >{{ child.name }}
+                  </a>
+                  <div *ngIf="!child.route">
+                    <ul class="overflown" *ngIf="child == subChildItem">
+                      <div
+                        class="child-list-container overflown"
+                        *ngIf="child == oldChild"
+                      >
+                        <li
+                          class="child-list"
+                          *ngFor="let subChild of child.subChildren"
+                        >
+                          <span
+                            class="activearrow"
+                            *ngIf="
+                              subChild.active ||
+                              checkActiveRouter(subChild.route, Parent)
+                            "
+                          ></span>
+                          <!-- if link doesnt have subChildren -->
+                          <a
+                            class="sub-sub-Child"
+                            [routerLink]="subChild.route"
+                            (click)="
+                              onClickSubChild($event, Parent, child, subChild)
+                            "
+                            >{{ subChild.name }}</a
+                          >
+                        </li>
+                      </div>
+                    </ul>
+                  </div>
+                </li>
+              </div>
+            </ul>
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<!-- *ngIf="!isCollapsed" -->

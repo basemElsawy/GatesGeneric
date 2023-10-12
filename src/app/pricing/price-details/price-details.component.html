@@ -1,0 +1,195 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'تفاصيل الاسعار' : 'Price details'"
+  [endPointUrl]="'price/details/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'price_table_name_ar'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isAdding]="true"
+      [isShowing]="true"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      (callbackAdded)="handleAddModelModel($event)"
+      (callbackShow)="handleShowPrice($event)"
+    >
+    </app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model #model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "اضافة تفصيل اسعار جديدة "
+          : "Add new price details"
+      }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "تعديل تفصيل اسعار"
+          : "Edit price details"
+      }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "حذف تفصيل اسعار"
+          : "Delete price details"
+      }}
+    </h4>
+  </div>
+  <div body>
+    <ng-container *ngIf="!isAdding && !isShow">
+      <form
+        class="row"
+        [formGroup]="detailsForm"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' الاسم باللغة العربية'
+                : 'Name in arabic'
+            "
+            [LabelFor]="'details_name_ar'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' الاسم باللغة العربية'
+                : 'Name in arabic'
+            "
+            [FormConterName]="'details_name_ar'"
+            [InputClass]="'form-control '"
+            [Id]="'details_name_ar'"
+            [FormParent]="detailsForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' الاسم باللغة الانجليزية'
+                : 'Name in arabic'
+            "
+            [LabelFor]="'details_name'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' الاسم باللغة الانجليزية'
+                : 'Name in arabic'
+            "
+            [FormConterName]="'details_name'"
+            [InputClass]="'form-control '"
+            [Id]="'details_name'"
+            [FormParent]="detailsForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? 'النوع' : 'Detail type'
+            "
+            [LabelFor]="'id'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'details_type'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'id'"
+            [FormParent]="detailsForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="holdListOfTypes"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'name'"
+            [viewKeyAr]="'name'"
+            [viewKeyEn]="'name'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+      </form>
+      <div
+        class="alert alert-danger"
+        *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+      >
+        <strong>{{
+          getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+        }}</strong>
+        {{
+          getCurrentLanguage() == "ar"
+            ? "هل تريد حذف؟"
+            : "Do you want to delete?"
+        }}
+      </div>
+    </ng-container>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

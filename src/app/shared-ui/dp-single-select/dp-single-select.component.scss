@@ -1,0 +1,15 @@
+.form-selectx{
+  width: 15rem!important;
+  background-position: right 0.75rem center;
+  &.ar{
+    background-position: left 0.75rem center;
+  }
+
+}
+
+
+@media screen and (max-width: 768px) {
+  .form-selectx{
+    width: 100%!important
+  }
+}

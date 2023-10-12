@@ -1,0 +1,298 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'البوابة' : 'Gate'"
+  [endPointUrl]="'roads/gates/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'gate_name_ar'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="
+        'table table-striped table-responsive w-28-rem background-blue'
+      "
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isShowing]="true"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      (callbackShow)="handleShowDirection($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة بوابة" : "Add Department" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل بوابة" : "Add Department" }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{ getCurrentLanguage() == "ar" ? "حذف بوابة" : "delete Department" }}
+    </h4>
+
+    <h4 *ngIf="isShowModel">
+      {{ getCurrentLanguage() == "ar" ? "اتجاهات بوابة" : "Gates directions" }}
+      : {{ GateName }}
+    </h4>
+  </div>
+  <div body>
+    <ng-container *ngIf="!isShowModel">
+      <form
+        class="row"
+        [formGroup]="gateForm"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم البوابة بالعربي '
+                : 'Gate Name Ar'
+            "
+            [LabelFor]="'gate_name_ar'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم البوابة بالعربي '
+                : 'Gate Name Ar'
+            "
+            [FormConterName]="'gate_name_ar'"
+            [InputClass]="'form-control '"
+            [Id]="'gate_name_ar'"
+            [FormParent]="gateForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+          <div
+            *ngIf="
+              gateForm.controls['gate_name_ar'].invalid &&
+              (gateForm.controls['gate_name_ar'].dirty ||
+                gateForm.controls['gate_name_ar'].touched)
+            "
+            class="text-danger fw-bold"
+          >
+            <div *ngIf="gateForm.controls['gate_name_ar'].errors.required">
+              يجب إدخال الإسم
+            </div>
+            <div *ngIf="gateForm.controls['gate_name_ar'].errors.pattern">
+              يجب إدخال الإسم باللغة العربية
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم البوابة بالانجليزية'
+                : 'Gate Name En'
+            "
+            [LabelFor]="'gate_name_en'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? 'ادخل البوابة بالانجليزي'
+                : 'Enter Gate Name En'
+            "
+            [FormConterName]="'gate_name_en'"
+            [InputClass]="'form-control '"
+            [Id]="'gate_name_en'"
+            [FormParent]="gateForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? 'اسم الطريق' : 'Road Name'
+            "
+            [LabelFor]="'road_id'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'road_id'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'road_id'"
+            [FormParent]="gateForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="holdListOfRoads"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'road_id'"
+            [viewKeyAr]="'road_name_ar'"
+            [viewKeyEn]="'road_name_en'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+          <div class="text-danger fw-bold" *ngIf="hasDropDownError">
+            <div>برجاء اختيار الطريق</div>
+          </div>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? 'حالة البوابة' : 'Gate Status'
+            "
+            [LabelFor]="'status_id'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'status_id'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'status_id'"
+            [FormParent]="gateForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="holdStatusList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'status_id'"
+            [viewKeyAr]="'status_name_ar'"
+            [viewKeyEn]="'status_name_en'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+            [LabelFor]="'note'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+            [FormConterName]="'note'"
+            [InputClass]="'form-control '"
+            [Id]="'main_actor_En'"
+            [FormParent]="gateForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'المحافظة التابع لها البوابة'
+                : 'Governorate'
+            "
+            [LabelFor]="'gov'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'gov'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'gov'"
+            [FormParent]="gateForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="govs"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'gov_id'"
+            [viewKeyAr]="'gov_name_ar'"
+            [viewKeyEn]="'gov_name_en'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+      </form>
+      <div *ngIf="(!isNewMode || !isEditMode) && isDeleteMode">
+        <h4 class="alert alert-danger text-center">
+          <strong>{{
+            getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+          }}</strong>
+          {{
+            getCurrentLanguage() == "ar"
+              ? "هل تريد حذف؟"
+              : "Do you want to delete?"
+          }}
+        </h4>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isShowModel">
+      <app-table
+        [tableClass]="'table table-striped table-responsive'"
+        [tableHeaderList]="listOfDirectionHeader"
+        [tableBodyList]="holdListOfDirection | async"
+        [listofObject]="holdLisOfDirection"
+        [isEditable]="false"
+        [isDeleteble]="false"
+        [isShowing]="false"
+        (callbackEdit)="editModel($event)"
+        (callbackDelete)="deleteModel($event)"
+      ></app-table>
+    </ng-container>
+  </div>
+
+  <div footer>
+    <div class="d-flex text-end" *ngIf="!isShowModel">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

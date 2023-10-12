@@ -1,0 +1,28 @@
+.navbar-main {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 0px 50px;
+    vertical-align: middle;
+    position: relative;
+    width: 100%;
+    z-index: 10000;
+    box-shadow: 0px 9px 20px -11px #b3b3b3;
+    height: 40px;
+}
+
+.navbar-main .btn {
+    font-size: 27px;
+    height: 50px;
+}
+
+.w-35 {
+    width: 26%;
+}
+
+.hide-navbar {
+    display: none;
+}
+
+.title-adjustment {
+    line-height: 35px;
+}

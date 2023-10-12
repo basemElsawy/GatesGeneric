@@ -1,0 +1,283 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'الاتجاهات' : 'Directions'"
+  [endPointUrl]="'roads/directions/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'directions_name_en'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary rounded-pill add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="'table table-striped table-responsive w-28-rem'"
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      [isShowing]="true"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+      (callbackShow)="handleShowLane($event)"
+    ></app-table>
+  </div>
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "اضافة الاتجاة" : "Add Department" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "تعديل الاتجاة" : "Add Department" }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{ getCurrentLanguage() == "ar" ? "حذف الاتجاة" : "delete Department" }}
+    </h4>
+    <h4 *ngIf="isShowModel">
+      {{
+        getCurrentLanguage() == "ar"
+          ? "الحارات التابعة لاتجاه"
+          : "Lanes under selected direction"
+      }}
+      :
+      {{ SelectedDirection }}
+    </h4>
+  </div>
+  <div body>
+    <ng-container *ngIf="!isShowModel">
+      <form
+        class="row"
+        [formGroup]="directionForm"
+        *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+      >
+        <div class="form-group mb-2 col-6">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم الاتجاة بالعربي '
+                : 'Direction Name Ar'
+            "
+            [LabelFor]="'directions_name_ar'"
+          >
+          </app-label>
+
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? ' اسم الاتجاة بالعربي '
+                : 'Direction Name Ar'
+            "
+            [FormConterName]="'directions_name_ar'"
+            [InputClass]="'form-control '"
+            [Id]="'directions_name_ar'"
+            [FormParent]="directionForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+          <div
+            *ngIf="
+              directionForm.controls['directions_name_ar'].invalid &&
+              (directionForm.controls['directions_name_ar'].dirty ||
+                directionForm.controls['directions_name_ar'].touched)
+            "
+            class="text-danger fw-bold"
+          >
+            <div
+              *ngIf="
+                directionForm.controls['directions_name_ar'].errors.required
+              "
+            >
+              يجب إدخال الإسم
+            </div>
+            <div
+              *ngIf="
+                directionForm.controls['directions_name_ar'].errors.pattern
+              "
+            >
+              يجب إدخال الإسم باللغة العربية
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar'
+                ? 'اسم الاتجاة بالانجليزية'
+                : 'Direction Name En'
+            "
+            [LabelFor]="'directions_name_en'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="
+              getCurrentLanguage() == 'ar'
+                ? 'ادخل الاتجاة بالانجليزي'
+                : 'Enter Diection Name En'
+            "
+            [FormConterName]="'directions_name_en'"
+            [InputClass]="'form-control '"
+            [Id]="'directions_name_en'"
+            [FormParent]="directionForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? 'اسم البوابة' : 'Gate Name'
+            "
+            [LabelFor]="'gate_id'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'gate_id'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'gate_id'"
+            [FormParent]="directionForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="holdListOfGates"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'gate_id'"
+            [viewKeyAr]="'gate_name_ar'"
+            [viewKeyEn]="'gate_name_en'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+          <div class="text-danger fw-bold" *ngIf="hasDropDownError">
+            <div>برجاء اختيار البوابة</div>
+          </div>
+        </div>
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="
+              getCurrentLanguage() == 'ar' ? 'حالة الاتجاة' : 'Direction Status'
+            "
+            [LabelFor]="'status_id'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="
+              getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+            "
+            [FormConterName]="'status_id'"
+            [InputClass]="'form-control form-select'"
+            [Id]="'status_id'"
+            [FormParent]="directionForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            [Options]="holdStatusList"
+            [Lang]="getCurrentLanguage()"
+            [returnKey]="'status_id'"
+            [viewKeyAr]="'status_name_ar'"
+            [viewKeyEn]="'status_name_en'"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-dp-single-select>
+        </div>
+
+        <div class="form-group mb-2 col-md-6 col-sm-12">
+          <app-label
+            [LabelValue]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+            [LabelFor]="'note'"
+          >
+          </app-label>
+          <app-input-text
+            [Type]="'text'"
+            [Placeholder]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+            [FormConterName]="'note'"
+            [InputClass]="'form-control '"
+            [Id]="'main_actor_En'"
+            [FormParent]="directionForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="false"
+            (callBack)="handleInputCallback($event)"
+          >
+          </app-input-text>
+        </div>
+      </form>
+      <div
+        class="alert alert-danger"
+        *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+      >
+        <strong>{{
+          getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+        }}</strong>
+        {{
+          getCurrentLanguage() == "ar"
+            ? "هل تريد حذف؟"
+            : "Do you want to delete?"
+        }}
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isShowModel">
+      <app-table
+        [tableClass]="'table table-striped table-responsive'"
+        [tableHeaderList]="listOfLaneHeader"
+        [tableBodyList]="holsListOfLane | async"
+        [listofObject]="holdListOfLane"
+        [isEditable]="false"
+        [isDeleteble]="false"
+        [isShowing]="false"
+        (callbackEdit)="editModel($event)"
+        (callbackDelete)="deleteModel($event)"
+      ></app-table>
+
+      <div *ngIf="showEmptyString">
+        <h4 class="alert alert-warning text-center">
+          {{ emptyLanesUnderDirection }}
+        </h4>
+      </div>
+    </ng-container>
+  </div>
+  <div footer>
+    <div class="d-flex text-end" *ngIf="!isShowModel">
+      <app-button
+        [btnClass]="'btn btn-outline-success'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

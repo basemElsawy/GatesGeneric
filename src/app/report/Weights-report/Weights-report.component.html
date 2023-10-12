@@ -1,0 +1,85 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="
+    getCurrentLanguage() == 'ar'
+      ? ' تقرير ايرادات الموازين اليومية '
+      : 'Weights dialy report'
+  "
+>
+  <div class="w-100" header>
+    <form [formGroup]="searchReportFilter">
+      <div class="row">
+        <div class="col-md-4">
+          <label class="fw-bold"> برجاء اختيار التاريخ </label>
+          <input
+            type="date"
+            class="form-control form-group"
+            formControlName="date"
+          />
+        </div>
+
+        <div class="col-md-2">
+          <app-button
+            [btnClass]="
+              'mx-2 my-2 btn btn-outline-primary rounded-pill add-btn'
+            "
+            [fontAwesomeClass]="'fab fa-searchengin h5'"
+            [btnText]="'بحث'"
+            (click)="showReportResults()"
+          ></app-button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div body *ngIf="isFilterTableDate">
+    <div class="row text-right">
+      <img class="my-2 img-holder" src="../../../assets/newLogo.jpeg" />
+    </div>
+
+    <div class="row text-center text-data">
+      <h5>
+        تقرير بيان إيرادات الموازين اليومية عن يوم
+        <span class="fw-bold">{{ delDateString }}</span> الموافق
+        <span class="fw-bold">{{ ReportData?.date }}</span>
+      </h5>
+    </div>
+    <table class="table table-responsive table-bordered table-striped">
+      <thead>
+        <th>#</th>
+        <th>البوابة</th>
+        <th>المحافظة</th>
+        <th>الإيراد</th>
+        <th>الموزون</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of fetchedReportData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ data.gate_name }}</td>
+          <td>{{ data.gov_name }}</td>
+          <td>{{ data.total_income }}</td>
+          <td>{{ data.weight_count }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <h4>الاجماليات</h4>
+      </div>
+    </div>
+    <table class="table table-responsive table-bordered table-striped">
+      <tbody>
+        <tr>
+          <th>اجمالي عام الايراد</th>
+          <td>{{ ReportData?.total_income }}</td>
+        </tr>
+
+        <tr>
+          <th>اجمالي عام الموازين</th>
+          <td>{{ ReportData?.weight_count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-structure-components>

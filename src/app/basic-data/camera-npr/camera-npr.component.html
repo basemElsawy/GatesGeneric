@@ -1,0 +1,189 @@
+<app-structure-components
+  [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? ' الكاميرات NPR ' : 'Camira NPR'"
+  [endPointUrl]="'camira/camira_npr/'"
+  [update]="updateApi | async"
+  (listOdData)="handlListOfData($event)"
+>
+  <div class="d-flex justify-content-between" header>
+    <app-search
+      [dataList]="holdOriginalData | async"
+      [keyOfSearch]="'number'"
+      (returnList)="handleFilterdData($event)"
+    >
+    </app-search>
+    <app-button
+      [btnClass]="'btn btn-outline-primary add-btn'"
+      [btnText]="getCurrentLanguage() == 'ar' ? 'اضافة' : 'Add'"
+      (CallBack)="openModel()"
+    ></app-button>
+  </div>
+
+  <div body>
+    <app-table
+      [tableClass]="'table table-responsive w-28-rem background-blue'"
+      [tableHeaderList]="listOfHeader"
+      [tableBodyList]="holdListOfFilterData | async"
+      [listofObject]="holdListOfDatakeys"
+      [isEditable]="true"
+      [isDeleteble]="true"
+      (callbackEdit)="editModel($event)"
+      (callbackDelete)="deleteModel($event)"
+    ></app-table>
+  </div>
+  <!-- [tableClass]="''" -->
+
+  <div footer>
+    <app-paginations
+      [pageSize]="pageSize"
+      [page]="page"
+      [maxSize]="10"
+      [collectionSize]="(holdCollectionDataAfterFilter | async)?.length"
+      (callBackk)="handleDataChange($event)"
+    >
+    </app-paginations>
+  </div>
+</app-structure-components>
+
+<app-model [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4 *ngIf="isNewMode">
+      {{ getCurrentLanguage() == "ar" ? "NPRاضافة كاميرة" : "Add Department" }}
+    </h4>
+    <h4 *ngIf="isEditMode">
+      {{ getCurrentLanguage() == "ar" ? "NPRتعديل كاميرة" : "Add Department" }}
+    </h4>
+    <h4 *ngIf="isDeleteMode">
+      {{ getCurrentLanguage() == "ar" ? "NPRحذف كاميرة" : "delete Department" }}
+    </h4>
+  </div>
+  <div body>
+    <form
+      class="row"
+      [formGroup]="camiraForm"
+      *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
+    >
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar' ? 'NPR كود كاميرة' : 'Camira NPR Code'
+          "
+          [LabelFor]="'number'"
+        >
+        </app-label>
+
+        <app-input-text
+          [Type]="'text'"
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? ' كود كاميرة' : 'Camira Code'
+          "
+          [FormConterName]="'number'"
+          [InputClass]="'form-control '"
+          [Id]="'number'"
+          [FormParent]="camiraForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-input-text>
+      </div>
+
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="getCurrentLanguage() == 'ar' ? 'اسم الخط' : 'Lane Name'"
+          [LabelFor]="'lane_id'"
+        >
+        </app-label>
+        <app-dp-single-select
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+          "
+          [FormConterName]="'lane_id'"
+          [InputClass]="'form-control form-select'"
+          [Id]="'lane_id'"
+          [FormParent]="camiraForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          [Options]="holdListOfLane"
+          [Lang]="getCurrentLanguage()"
+          [returnKey]="'lane_id'"
+          [viewKeyAr]="'lane_code'"
+          [viewKeyEn]="'lane_code'"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-dp-single-select>
+      </div>
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="
+            getCurrentLanguage() == 'ar' ? 'حالة الكاميرة' : 'Camria Status'
+          "
+          [LabelFor]="'status_id'"
+        >
+        </app-label>
+        <app-dp-single-select
+          [Placeholder]="
+            getCurrentLanguage() == 'ar' ? 'برجاء الاختيار' : 'Please select'
+          "
+          [FormConterName]="'status_id'"
+          [InputClass]="'form-control form-select'"
+          [Id]="'status_id'"
+          [FormParent]="camiraForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          [Options]="holdStatusList"
+          [Lang]="getCurrentLanguage()"
+          [returnKey]="'status_id'"
+          [viewKeyAr]="'status_name_ar'"
+          [viewKeyEn]="'status_name_en'"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-dp-single-select>
+      </div>
+
+      <div class="form-group mb-2 col-md-6 col-sm-12">
+        <app-label
+          [LabelValue]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+          [LabelFor]="'note'"
+        >
+        </app-label>
+        <app-input-text
+          [Type]="'text'"
+          [Placeholder]="getCurrentLanguage() == 'ar' ? ' ملاحظة ' : ' note'"
+          [FormConterName]="'note'"
+          [InputClass]="'form-control '"
+          [Id]="'main_actor_En'"
+          [FormParent]="camiraForm"
+          [disable]="false"
+          [isClicked]="false"
+          [isChanges]="false"
+          (callBack)="handleInputCallback($event)"
+        >
+        </app-input-text>
+      </div>
+    </form>
+    <div
+      class="alert alert-danger"
+      *ngIf="(!isNewMode || !isEditMode) && isDeleteMode"
+    >
+      <strong>{{
+        getCurrentLanguage() == "ar" ? "تنبيه!" : "Warning!"
+      }}</strong>
+      {{
+        getCurrentLanguage() == "ar" ? "هل تريد حذف؟" : "Do you want to delete?"
+      }}
+    </div>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button
+        [btnClass]="'btn btn-outline-success add-btn'"
+        [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitRequest()"
+      ></app-button>
+    </div>
+  </div>
+</app-model>

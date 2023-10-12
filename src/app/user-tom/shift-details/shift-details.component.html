@@ -1,0 +1,210 @@
+<app-structure-components [Class]="'hide parent-width'" [lang]="getCurrentLanguage()"
+  [titles]="getCurrentLanguage() == 'ar' ? 'تفاصيل الوردية' : 'Shift Deatils'" [endPointUrl]="''"
+  [update]="updateApi | async" (listOdData)="handlListOfData($event)">
+  <div body>
+    <div class="m-auto">
+      <div class="row m-auto my-2">
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{
+              getCurrentLanguage() == "ar"
+                ? "رصيد اول المدة"
+                : "First Amount of shift"
+            }}
+          </div>
+          <div class="col-8 text-center d-flex justify-content-between">
+            <span> 0.00</span>
+            <span>جنية </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{
+              getCurrentLanguage() == "ar"
+                ? "حصيلة فترة العمل الحالية "
+                : "the total amount of shift"
+            }}
+          </div>
+          <div class="col-8 text-center d-flex justify-content-between">
+            <span> {{ ShiftData.shift_revenue }}</span>
+            <span>جنية </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{ getCurrentLanguage() == "ar" ? "اجمالي التحصيل " : "total" }}
+          </div>
+          <div class="col-8 text-center d-flex justify-content-between">
+            <span> {{ ShiftData.shift_dediction_total }}</span>
+            <span>جنية </span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row m-auto my-2">
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{ getCurrentLanguage() == "ar" ? "المتبقي " : "Remender" }}
+          </div>
+          <div class="col-8 text-center d-flex justify-content-between">
+            <span> {{ ShiftSubtraction }}</span>
+            <span>جنية </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{ getCurrentLanguage() == "ar" ? "تحصيل المبلغ " : "cahsed" }}
+          </div>
+          <div class="col-8 text-center d-flex justify-content-between">
+            <form [formGroup]="Payment">
+              <app-input-number [Type]="'number'" [Placeholder]="
+                  getCurrentLanguage() == 'ar' ? ' القيمة ' : '  Amount'
+                " [FormConterName]="'amount'" [InputClass]="'form-control  text-center '" [Id]="'amount'"
+                [FormParent]="Payment" [disable]="false" [isClicked]="false" [isChanges]="true"
+                (callBack)="handleInputCallback($event)">
+              </app-input-number>
+            </form>
+            <span>جنية </span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row m-auto my-2">
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{
+              getCurrentLanguage() == "ar"
+                ? "  محتوي درج التحصيل الاجمالي"
+                : "total cash at Staircase"
+            }}
+          </div>
+          <div class="col-8 text-center d-flex justify-content-between">
+            <span> {{ ShiftData.available_total }}</span>
+            <span>جنية </span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row m-auto my-2">
+        <div class="row">
+          <div class="h5 text-primary col-4">
+            {{
+              getCurrentLanguage() == "ar"
+                ? "اسم القائم بالجرد "
+                : "Name of Shift Manager"
+            }}
+          </div>
+          <div class="col-8 text-center">
+            <!-- <app-button [btnClass]="'btn btn-outline-primary'" [btnText]="getCurrentLanguage() =='ar'?' المدير':'Save'"
+              (CallBack)="submitRequest()"></app-button> -->
+            <app-button [btnClass]="'btn btn-outline-success'"
+              [btnText]="getCurrentLanguage() == 'ar' ? 'تحصيل الجزئي' : 'Save'" (CallBack)="submitRequest()">
+            </app-button>
+            <!-- <app-button [btnClass]="'btn btn-outline-danger'"
+              [btnText]="getCurrentLanguage() =='ar'?'انهاء فترة العمل ':'Save'" (CallBack)="closeShift()"></app-button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-structure-components>
+
+<app-model class="hides" [Lang]="getCurrentLanguage()">
+  <div header>
+    <h4>
+      {{ getCurrentLanguage() == "ar" ? "بيانات المدير" : "Manger Info" }}
+    </h4>
+  </div>
+  <div body>
+    <form class="row" [formGroup]="adminAuth">
+      <div class="form-group mb-2 col-6">
+        <app-label [LabelValue]="
+            getCurrentLanguage() == 'ar' ? ' اسم المدير ' : ' Manger Name'
+          " [LabelFor]="'username'">
+        </app-label>
+        <app-input-text [Type]="'text'" [Placeholder]="
+            getCurrentLanguage() == 'ar' ? ' اسم المدير ' : ' Manger Name'
+          " [FormConterName]="'username'" [InputClass]="'form-control '" [Id]="'username'" [FormParent]="adminAuth"
+          [disable]="false" [isClicked]="false" [isChanges]="false" (callBack)="handleInputCallback($event)">
+        </app-input-text>
+      </div>
+      <div class="form-group mb-2 col-6">
+        <app-label [LabelValue]="
+            getCurrentLanguage() == 'ar'
+              ? ' باسورد المدير '
+              : ' Manger Password'
+          " [LabelFor]="'password'">
+        </app-label>
+        <app-input-text [Type]="'password'" [Placeholder]="
+            getCurrentLanguage() == 'ar'
+              ? ' باسورد المدير '
+              : ' Manger Password'
+          " [FormConterName]="'password'" [InputClass]="'form-control '" [Id]="'password'" [FormParent]="adminAuth"
+          [disable]="false" [isClicked]="false" [isChanges]="false" (callBack)="handleInputCallback($event)">
+        </app-input-text>
+      </div>
+    </form>
+  </div>
+  <div footer>
+    <div class="d-flex text-end">
+      <app-button [btnClass]="'btn btn-outline-success'" [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
+        (CallBack)="submitManger()"></app-button>
+    </div>
+  </div>
+</app-model>
+
+<!-- here is the section needed to show the reciept-->
+<div class="ticket m-auto" *ngIf="holdUserInfo">
+  <img class="new-imgStyle" src="../../../assets/newLogo.jpeg" alt="Logo" />
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="text-center">بيان درج التحصيل اثناء فترة العمل</h5>
+    </div>
+  </div>
+  <table class="table table-responsive p-2">
+    <tbody>
+      <tr>
+        <td class="td-new">توقيت الجرد :</td>
+        <td class="td-values">
+          {{ holdUserInfo.created_at | date: "dd-MM-yyyy hh:mm" }}
+        </td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">اسم المستخدم</td>
+        <td class="td-values">
+          {{ Fullname }}
+        </td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">اسم المحصل</td>
+        <td class="td-values">
+          {{
+            holdUserInfo.action_user.first_name +
+              " " +
+              holdUserInfo.action_user.middle_name +
+              " " +
+              holdUserInfo.action_user.last_name
+          }}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="td-new fw-bold">محتوي درج التحصيل قبل الجرد</td>
+        <td class="td-values">{{ ShiftSubtraction }} جنية</td>
+      </tr>
+
+      <tr>
+        <td class="td-new fw-bold">القيمة المستقطعة من درج التحصيل</td>
+        <td class="td-values">{{ payamAmount }} جنيه</td>
+      </tr>
+
+      <tr>
+        <td class="td-new fw-bold">محتوي درج التحصيل بعد الجرد</td>
+        <td class="td-values">{{ holdUserInfo.available_total }} جنيه</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
