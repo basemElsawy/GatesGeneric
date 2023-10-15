@@ -1,29 +1,56 @@
-.bg-road {
-  background-image: url("../../../assets/bridge.jpg");
-  background-color: #eee;
+.parent {
+  background: url("../../../assets/bridge.jpg");
+  background-color: #04485d70 !important;
   height: 100vh;
+  background-blend-mode: multiply;
   width: 100vw;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  backdrop-filter: blur(3px);
-  /* Add the blur effect */
-  filter: blur(3px);
-  -webkit-filter: blur(3px);
-  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:root {
+  --bg-color: #0a58ca;
 }
 
 .container {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%);
-  width: 40%;
+  position: relative;
+  z-index: 1000;
+  width: 50%;
+  margin: auto;
+  // background-color: white !important;
   height: auto;
 }
+.card {
+  background-color: white !important;
+}
+.headline {
+  text-align: right;
 
-.w-85{
-  width: 85%;
+  direction: rtl;
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+}
+// .w-85 {
+//   width: 85%;
+// }
+.radio-check-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-inline: 20px;
+}
+.radio-check {
+  width: 50%;
 }
 
-
+.form-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

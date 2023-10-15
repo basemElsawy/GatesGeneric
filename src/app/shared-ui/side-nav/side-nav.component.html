@@ -12,29 +12,6 @@
           <div class="bar mid-bar"></div>
           <div class="bar bottom-bar"></div>
         </div>
-        <!-- <div
-          [class]="
-            !isCollapsed
-              ? 'img-container'
-              : 'img-container active-image-container'
-          "
-        >
-        <img
-            src="../../../assets/newLogo.png"
-            class="img-logo-collapsed"
-            (click)="toggleActiveClass()"
-            style="cursor: pointer"
-          /> 
-        </div> -->
-        <!-- [ngClass]="{ 'not-visible': isCollapsed }" -->
-
-        <!-- <img
-          src="../../../assets/newLogo.png"
-          class="img-logo-collapsed"
-          [ngClass]="{ 'not-visible': !isCollapsed }"
-          (click)="toggleActiveClass()"
-          style="cursor: pointer"
-        /> -->
       </div>
       <app-user-drop-down
         dir="rtl"
@@ -55,18 +32,25 @@
             dir="rtl"
             data-toggle="collapse"
             aria-expanded="false"
-            class="dropdown-toggle"
+            [class]="
+              !isCollapsed
+                ? 'dropdown-toggle parent-link active-parent'
+                : 'dropdown-toggle parent-link'
+            "
           >
-            <img
-              *ngIf="Parent.icon"
-              [src]="Parent.icon"
-              class="nav-icon"
-              style="margin-inline-end: 16px"
-              [ngClass]="{ 'nav-icon-active': isCollapsed }"
-              alt="nav-icon"
-            />
-            <span *ngIf="!isCollapsed">{{ Parent.name }}</span>
-            <span *ngIf="!isCollapsed" class="arrow"></span>
+            <div class="link-wrapper">
+              <div *ngIf="Parent.icon">
+                <!-- class="nav-icon" -->
+                <i [class]="Parent.icon" alt="nav-icon"></i>
+                <!-- [ngClass]="{ 'nav-icon-active': isCollapsed }" -->
+              </div>
+              <div *ngIf="!isCollapsed" class="list-headline">
+                {{ Parent.name }}
+              </div>
+              <div *ngIf="!isCollapsed" class="caret-down">
+                <i class="fa-solid fa-caret-down"></i>
+              </div>
+            </div>
           </a>
           <ng-container *ngIf="oldItem">
             <ul
@@ -147,3 +131,27 @@
 </div>
 
 <!-- *ngIf="!isCollapsed" -->
+
+<!-- <div
+  [class]="
+    !isCollapsed
+      ? 'img-container'
+      : 'img-container active-image-container'
+  "
+>
+<img
+    src="../../../assets/newLogo.png"
+    class="img-logo-collapsed"
+    (click)="toggleActiveClass()"
+    style="cursor: pointer"
+  /> 
+</div> -->
+<!-- [ngClass]="{ 'not-visible': isCollapsed }" -->
+
+<!-- <img
+  src="../../../assets/newLogo.png"
+  class="img-logo-collapsed"
+  [ngClass]="{ 'not-visible': !isCollapsed }"
+  (click)="toggleActiveClass()"
+  style="cursor: pointer"
+/> -->

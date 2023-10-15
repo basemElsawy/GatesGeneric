@@ -1,7 +1,6 @@
-<div class="container_loader" *ngIf="loader.isLoading|async">
-  <div class="loader">
-    <img src="../../../assets/load.gif" alt="loader">
-    <span class='text-danger'> جاري التحميل....</span>
-
+<div class="container_loader" *ngIf="loader.isLoading | async">
+  <div class="loader-wrapper">
+    <span class="loader"></span>
+    <p dir="rtl" class="white-text">جاري التحميل...</p>
   </div>
 </div>

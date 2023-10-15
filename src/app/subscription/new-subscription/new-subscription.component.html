@@ -1,213 +1,215 @@
-<div class="card my-3">
-  <div class="card-header">
-    <h4>بيانات طالب الاشتراك</h4>
-  </div>
+<div class="main-subscription-wrapper">
+  <div class="card my-3">
+    <div class="card-header">
+      <h4>بيانات طالب الاشتراك</h4>
+    </div>
 
-  <div class="card-body">
-    <form [formGroup]="userData">
-      <div class="row">
-        <div class="form-group col-md-3">
-          <label>الاسم رباعي</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="الاسم رباعي"
-            formControlName="fullname"
-          />
-        </div>
+    <div class="card-body">
+      <form [formGroup]="userData">
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label>الاسم رباعي</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="الاسم رباعي"
+              formControlName="fullname"
+            />
+          </div>
 
-        <div class="form-group col-md-3">
-          <label>رقم الاشتراك</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="رقم الاشتراك"
-            formControlName="subscription_number"
-            (focusout)="setReadervalue($event)"
-          />
-        </div>
+          <div class="form-group col-md-3">
+            <label>رقم الاشتراك</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="رقم الاشتراك"
+              formControlName="subscription_number"
+              (focusout)="setReadervalue($event)"
+            />
+          </div>
 
-        <div class="form-group col-md-3">
-          <label>نوع الاشتراك</label>
-          <select
-            class="form-select form-group"
-            formControlName="type_of_identification"
-            (change)="choosedsubType($event)"
-          >
-            <option value="P">شخصي</option>
-            <option value="C">شركة</option>
-          </select>
-        </div>
-
-        <div class="form-group col-md-3" *ngIf="!shownationalSSnType">
-          <label>البطاقة الضريبية</label>
-          <input
-            class="form-control"
-            type="number"
-            placeholder="البطاقة الضريبية"
-            formControlName="Commercialssn"
-          />
-        </div>
-
-        <div class="form-group col-md-3" *ngIf="shownationalSSnType">
-          <label>بطاقة الرقم القومي</label>
-          <input
-            class="form-control"
-            type="number"
-            placeholder="بطاقة الرقم القومي"
-            formControlName="poi_number"
-          />
-        </div>
-
-        <div class="form-group col-md-3">
-          <label>تاريخ بداية الاشتراك</label>
-          <input
-            class="form-control"
-            type="date"
-            formControlName="subscription_start_date"
-          />
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="card my-3">
-  <div class="card-header">
-    <h4>بيانات رخصة القيادة</h4>
-  </div>
-
-  <div class="card-body">
-    <form [formGroup]="DrivingLicensce">
-      <div class="row">
-        <div class="form-group col-md-3">
-          <label>رقم اللوحة المعدنية</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="رقم اللوحة المعدنية"
-            formControlName="platteNumber"
-          />
-        </div>
-
-        <div class="form-group col-md-3">
-          <label>رقم الموتور</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="رقم الموتور"
-            formControlName="motorNumber"
-          />
-        </div>
-
-        <div class="form-group col-md-3">
-          <label>رقم الشاسيه</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="رقم الشاسيه"
-            formControlName="chaisseNumber"
-          />
-        </div>
-
-        <div class="form-group col-md-3">
-          <label>موديل العربية</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="موديل العربية"
-            formControlName="car_Model"
-          />
-        </div>
-
-        <div class="form-group col-md-3">
-          <label>تاريخ الموديل</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="تاريخ الموديل"
-            formControlName="model_date"
-          />
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="card my-3">
-  <div class="card-header">
-    <h4>فئات الاشتراكات</h4>
-  </div>
-  <div class="card-body">
-    <form [formGroup]="categories">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label>فئات المركبات</label>
-          <select
-            class="form-control form-select"
-            formControlName="carCategories"
-            (change)="setChoosedcarCat($event)"
-          >
-            <option
-              *ngFor="let car of holdListOfCars"
-              [value]="car.car_classe_id"
+          <div class="form-group col-md-3">
+            <label>نوع الاشتراك</label>
+            <select
+              class="form-select form-group"
+              formControlName="type_of_identification"
+              (change)="choosedsubType($event)"
             >
-              {{ car.car_classe_Name_Ar }}
-            </option>
-          </select>
+              <option value="P">شخصي</option>
+              <option value="C">شركة</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3" *ngIf="!shownationalSSnType">
+            <label>البطاقة الضريبية</label>
+            <input
+              class="form-control"
+              type="number"
+              placeholder="البطاقة الضريبية"
+              formControlName="Commercialssn"
+            />
+          </div>
+
+          <div class="form-group col-md-3" *ngIf="shownationalSSnType">
+            <label>بطاقة الرقم القومي</label>
+            <input
+              class="form-control"
+              type="number"
+              placeholder="بطاقة الرقم القومي"
+              formControlName="poi_number"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>تاريخ بداية الاشتراك</label>
+            <input
+              class="form-control"
+              type="date"
+              formControlName="subscription_start_date"
+            />
+          </div>
         </div>
-      </div>
-    </form>
-    <div class="row">
-      <div class="col-md-4" *ngFor="let data of parsedPriceLists">
-        <div class="card card-detail">
-          <div class="card-body">
-            <h5 class="text-center fw-bold">لمدة</h5>
-            <p class="duration-time fw-bold text-center">
-              <sub style="font-size: 15px">
-                {{ data.subscriptions.duration }}
-                {{
-                  data.subscriptions.duration_type == "D"
-                    ? "يوم"
-                    : data.subscriptions.duration_type == "Y"
-                    ? "سنة"
-                    : data.subscriptions.duration_type == "M"
-                    ? "شهر"
-                    : data.subscriptions.duration_type == "W"
-                    ? "اسبوع"
-                    : ""
-                }}
-                / </sub
-              >LE {{ data.price }}
-            </p>
-            <div class="text-center">
-              <button
-                class="confirm-button btn btn-primary"
-                (click)="setPriceChoosedlist(data)"
+      </form>
+    </div>
+  </div>
+
+  <div class="card my-3">
+    <div class="card-header">
+      <h4>بيانات رخصة القيادة</h4>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="DrivingLicensce">
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label>رقم اللوحة المعدنية</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="رقم اللوحة المعدنية"
+              formControlName="platteNumber"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>رقم الموتور</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="رقم الموتور"
+              formControlName="motorNumber"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>رقم الشاسيه</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="رقم الشاسيه"
+              formControlName="chaisseNumber"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>موديل العربية</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="موديل العربية"
+              formControlName="car_Model"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>تاريخ الموديل</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="تاريخ الموديل"
+              formControlName="model_date"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card my-3">
+    <div class="card-header">
+      <h4>فئات الاشتراكات</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="categories">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label>فئات المركبات</label>
+            <select
+              class="form-control form-select"
+              formControlName="carCategories"
+              (change)="setChoosedcarCat($event)"
+            >
+              <option
+                *ngFor="let car of holdListOfCars"
+                [value]="car.car_classe_id"
               >
-                اختيار
-              </button>
+                {{ car.car_classe_Name_Ar }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let data of parsedPriceLists">
+          <div class="card card-detail">
+            <div class="card-body">
+              <h5 class="text-center fw-bold">لمدة</h5>
+              <p class="duration-time fw-bold text-center">
+                <sub style="font-size: 15px">
+                  {{ data.subscriptions.duration }}
+                  {{
+                    data.subscriptions.duration_type == "D"
+                      ? "يوم"
+                      : data.subscriptions.duration_type == "Y"
+                      ? "سنة"
+                      : data.subscriptions.duration_type == "M"
+                      ? "شهر"
+                      : data.subscriptions.duration_type == "W"
+                      ? "اسبوع"
+                      : ""
+                  }}
+                  / </sub
+                >LE {{ data.price }}
+              </p>
+              <div class="text-center">
+                <button
+                  class="confirm-button btn btn-primary"
+                  (click)="setPriceChoosedlist(data)"
+                >
+                  اختيار
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" *ngIf="parsedPriceLists.length == 0">
-      <div class="col-md-12">
-        <h4 class="alert alert-warning text-center">لا يوجد بيانات متاحة</h4>
+      <div class="row" *ngIf="parsedPriceLists.length == 0">
+        <div class="col-md-12">
+          <h4 class="alert alert-warning text-center">لا يوجد بيانات متاحة</h4>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="row text-center">
-    <div class="col-md-12 text-center my-3">
-      <button
-        class="btn btn-primary rounded-pill"
-        (click)="addNewSubscription()"
-      >
-        انشاء اشتراك جديد
-      </button>
+    <div class="row text-center">
+      <div class="col-md-12 text-center my-3">
+        <button
+          class="btn btn-primary rounded-pill add-btn"
+          (click)="addNewSubscription()"
+        >
+          انشاء اشتراك جديد
+        </button>
+      </div>
     </div>
   </div>
 </div>

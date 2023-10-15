@@ -1,115 +1,122 @@
-<app-structure-components
-  [lang]="getCurrentLanguage()"
-  [endPointUrl]="''"
-  [titles]="
-    getCurrentLanguage() == 'ar'
-      ? ' اجمالي عمليات فئات المركبات '
-      : 'Total operation category amount'
-  "
->
-  <div class="w-100" header>
-    <app-app-search-report-filter
-      class="d-print-none"
-      [OptionOne]="holdListOfRoads | async"
-      [OptionTwo]="holdListOfGates | async"
-      [OptionThree]="holdListOfLanes | async"
-      [OptionFour]="holdListOfCategories | async"
-      (callBack)="handleResultOfSearch($event)"
-    >
-    </app-app-search-report-filter>
-  </div>
-  <div body *ngIf="ShowReportData">
-    <div class="row text-right">
-      <img class="my-2 img-holder" src="../../../assets/newLogo.jpeg" />
-    </div>
-
-    <div class="data-holder">
-      <span class="data-holder-span"> اجمالي عدد الفئات للنقاط </span>
-      <h4>الطريق الدولي الساحلي</h4>
-      <h4>محطة رسوم البغدادي</h4>
-    </div>
-
-    <h5 class="text-center">
-      في الفترة من <span class="fw-bold">{{ from_date }}</span>
-      <span>
-        الي <span class="fw-bold">{{ to_date }}</span></span
+<div class="reports-wrapper">
+  <app-structure-components
+    [lang]="getCurrentLanguage()"
+    [endPointUrl]="''"
+    [titles]="
+      getCurrentLanguage() == 'ar'
+        ? ' اجمالي عمليات فئات المركبات '
+        : 'Total operation category amount'
+    "
+  >
+    <div class="w-100" header>
+      <app-app-search-report-filter
+        class="d-print-none"
+        [OptionOne]="holdListOfRoads | async"
+        [OptionTwo]="holdListOfGates | async"
+        [OptionThree]="holdListOfLanes | async"
+        [OptionFour]="holdListOfCategories | async"
+        (callBack)="handleResultOfSearch($event)"
       >
-    </h5>
+      </app-app-search-report-filter>
+    </div>
+    <div body *ngIf="ShowReportData">
+      <div class="row text-right">
+        <img class="my-2 img-holder" src="../../../assets/newLogo.jpeg" />
+      </div>
 
-    <table class="table table-striped table-bordered">
-      <thead>
-        <th>اسم الاتجاه</th>
-        <th>رقم الحارة</th>
-        <th>فئة المركبات</th>
-        <th>عدد المركبات</th>
-        <th>الاجمالي</th>
-      </thead>
+      <div class="data-holder">
+        <span class="data-holder-span"> اجمالي عدد الفئات للنقاط </span>
+        <h4>الطريق الدولي الساحلي</h4>
+        <h4>محطة رسوم البغدادي</h4>
+      </div>
 
-      <tbody>
-        <ng-container
-          *ngFor="let data of FetchedDialyReportData.lane_detail; let i = index"
+      <h5 class="text-center">
+        في الفترة من <span class="fw-bold">{{ from_date }}</span>
+        <span>
+          الي <span class="fw-bold">{{ to_date }}</span></span
         >
+      </h5>
+
+      <table class="table table-striped table-bordered">
+        <thead>
+          <th>اسم الاتجاه</th>
+          <th>رقم الحارة</th>
+          <th>فئة المركبات</th>
+          <th>عدد المركبات</th>
+          <th>الاجمالي</th>
+        </thead>
+
+        <tbody>
+          <ng-container
+            *ngFor="
+              let data of FetchedDialyReportData.lane_detail;
+              let i = index
+            "
+          >
+            <tr>
+              <td>
+                {{ data.directions_name_ar }}
+              </td>
+
+              <td>
+                {{ data.lane_code }}
+              </td>
+
+              <td>
+                <tr
+                  *ngFor="let x of data.shifts_detail"
+                  class="d-flex justify-content-center"
+                >
+                  <td>
+                    {{ x.car_classe_Name_Ar }}
+                  </td>
+                </tr>
+              </td>
+
+              <td>
+                <tr
+                  *ngFor="let x of data.shifts_detail"
+                  class="d-flex justify-content-center"
+                >
+                  <td>
+                    {{ x.total_cars }}
+                  </td>
+                </tr>
+              </td>
+
+              <td>
+                <tr
+                  *ngFor="let x of data.shifts_detail"
+                  class="d-flex justify-content-center"
+                >
+                  <td>
+                    {{ x.total_price }}
+                  </td>
+                </tr>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="3">الاجمالي</th>
+              <td>{{ data.total_cars }}</td>
+              <td>{{ data.total_price }}</td>
+            </tr>
+          </ng-container>
+
           <tr>
-            <td>
-              {{ data.directions_name_ar }}
-            </td>
-
-            <td>
-              {{ data.lane_code }}
-            </td>
-
-            <td>
-              <tr
-                *ngFor="let x of data.shifts_detail"
-                class="d-flex justify-content-center"
-              >
-                <td>
-                  {{ x.car_classe_Name_Ar }}
-                </td>
-              </tr>
-            </td>
-
-            <td>
-              <tr
-                *ngFor="let x of data.shifts_detail"
-                class="d-flex justify-content-center"
-              >
-                <td>
-                  {{ x.total_cars }}
-                </td>
-              </tr>
-            </td>
-
-            <td>
-              <tr
-                *ngFor="let x of data.shifts_detail"
-                class="d-flex justify-content-center"
-              >
-                <td>
-                  {{ x.total_price }}
-                </td>
-              </tr>
-            </td>
+            <th colspan=" 3">الاجمالي العام</th>
+            <td>{{ FetchedDialyReportData.total_cars }}</td>
+            <td>{{ FetchedDialyReportData.totla_price }}</td>
           </tr>
-          <tr>
-            <th colspan="3">الاجمالي</th>
-            <td>{{ data.total_cars }}</td>
-            <td>{{ data.total_price }}</td>
-          </tr>
-        </ng-container>
+        </tbody>
+      </table>
 
-        <tr>
-          <th colspan=" 3">الاجمالي العام</th>
-          <td>{{ FetchedDialyReportData.total_cars }}</td>
-          <td>{{ FetchedDialyReportData.totla_price }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="row d-print-none">
-      <div class="col-md-12 text-center">
-        <button class="btn btn-primary" (click)="print()">طباعة التقرير</button>
+      <div class="row d-print-none">
+        <div class="col-md-12 text-center">
+          <button class="btn btn-primary" (click)="print()">
+            طباعة التقرير
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-</app-structure-components>
+  </app-structure-components>
+</div>

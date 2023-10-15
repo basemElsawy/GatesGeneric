@@ -1,197 +1,201 @@
-<app-structure-components
-  [lang]="getCurrentLanguage()"
-  [titles]="
-    getCurrentLanguage() == 'ar'
-      ? ' تقرير بيان الايراد اليومي '
-      : 'Dialy results report'
-  "
->
-  <div class="w-100" header>
-    <app-app-search-report-filter
-      class="d-print-none"
-      [OptionOne]="holdListOfRoads | async"
-      [OptionTwo]="holdListOfGates | async"
-      [OptionThree]="holdListOfLanes | async"
-      [OptionFour]="holdListOfCategories | async"
-      (callBack)="handleResultOfSearch($event)"
-    >
-    </app-app-search-report-filter>
-  </div>
-  <div body *ngIf="ShowReportTable">
-    <div class="row text-right">
-      <img class="my-2 img-holder" src="../../../assets/newLogo.jpeg" />
+<div class="reports-wrapper">
+  <app-structure-components
+    [lang]="getCurrentLanguage()"
+    [titles]="
+      getCurrentLanguage() == 'ar'
+        ? ' تقرير بيان الايراد اليومي '
+        : 'Dialy results report'
+    "
+  >
+    <div class="w-100" header>
+      <app-app-search-report-filter
+        class="d-print-none"
+        [OptionOne]="holdListOfRoads | async"
+        [OptionTwo]="holdListOfGates | async"
+        [OptionThree]="holdListOfLanes | async"
+        [OptionFour]="holdListOfCategories | async"
+        (callBack)="handleResultOfSearch($event)"
+      >
+      </app-app-search-report-filter>
     </div>
+    <div body *ngIf="ShowReportTable">
+      <div class="row text-right">
+        <img class="my-2 img-holder" src="../../../assets/newLogo.jpeg" />
+      </div>
 
-    <div class="row text-center text-data">
-      <h5>محطة تحصيل رسوم</h5>
-      <h5>تقرير بيان الايراد اليومي عن يوم {{ choosedDate }}</h5>
-    </div>
-    <table
-      class="table table-responsive table-bordered table-striped"
-      id="pdfTable"
-      #pdfTable
-    >
-      <thead>
-        <th>#</th>
-        <th>اسم المحصل</th>
-        <th>رقم الحارة</th>
-        <th>الوقت</th>
-        <th class="mx-2" scope="col">
-          <span>التذاكر</span>
-          <tr class="d-flex justify-content-center">
-            <th class="m-2">عدد</th>
-            <th class="m-2">قيمة</th>
-          </tr>
-        </th>
-        <th *ngFor="let header of parsedReportHeader">
-          {{ header.details_name_ar }}
-        </th>
-        <th>الاجمالي</th>
-      </thead>
+      <div class="row text-center text-data">
+        <h5>محطة تحصيل رسوم</h5>
+        <h5>تقرير بيان الايراد اليومي عن يوم {{ choosedDate }}</h5>
+      </div>
+      <table
+        class="table table-responsive table-bordered table-striped"
+        id="pdfTable"
+        #pdfTable
+      >
+        <thead>
+          <th>#</th>
+          <th>اسم المحصل</th>
+          <th>رقم الحارة</th>
+          <th>الوقت</th>
+          <th class="mx-2" scope="col">
+            <span>التذاكر</span>
+            <tr class="d-flex justify-content-center">
+              <th class="m-2">عدد</th>
+              <th class="m-2">قيمة</th>
+            </tr>
+          </th>
+          <th *ngFor="let header of parsedReportHeader">
+            {{ header.details_name_ar }}
+          </th>
+          <th>الاجمالي</th>
+        </thead>
 
-      <tbody class="text-center">
-        <ng-container
-          *ngFor="let data of FetchedReport.shifts_data; let i = index"
-        >
-          <tr>
-            <td>
-              {{ i + 1 }}
-            </td>
+        <tbody class="text-center">
+          <ng-container
+            *ngFor="let data of FetchedReport.shifts_data; let i = index"
+          >
+            <tr>
+              <td>
+                {{ i + 1 }}
+              </td>
 
-            <td>
-              {{ data.user_name }}
-            </td>
+              <td>
+                {{ data.user_name }}
+              </td>
 
-            <td>
-              {{ data.lane_code }}
-            </td>
+              <td>
+                {{ data.lane_code }}
+              </td>
 
-            <td>
-              <p>
-                <span class="fw-bold">من :</span>
-                {{ data.created_at | date: "dd-MM-yyyy  hh:mm:ss a" }}
-              </p>
-              <p>
-                <span class="fw-bold">الي :</span>
-                {{ data.shift_close_date | date: "dd-MM-yyyy  hh:mm:ss a" }}
-              </p>
-            </td>
+              <td>
+                <p>
+                  <span class="fw-bold">من :</span>
+                  {{ data.created_at | date : "dd-MM-yyyy  hh:mm:ss a" }}
+                </p>
+                <p>
+                  <span class="fw-bold">الي :</span>
+                  {{ data.shift_close_date | date : "dd-MM-yyyy  hh:mm:ss a" }}
+                </p>
+              </td>
 
-            <td>
-              <tr
-                *ngFor="let d of data.shift_details"
-                class="d-flex justify-around"
+              <td>
+                <tr
+                  *ngFor="let d of data.shift_details"
+                  class="d-flex justify-around"
+                >
+                  <td>
+                    {{ d.total_cars }}
+                  </td>
+
+                  <td>
+                    {{ d.total_price }}
+                  </td>
+                </tr>
+              </td>
+
+              <td
+                *ngFor="
+                  let neededData of data.shift_details[0].details;
+                  let i = index
+                "
               >
-                <td>
-                  {{ d.total_cars }}
-                </td>
+                <tr *ngFor="let fetchedData of data.shift_details">
+                  <td>
+                    <p class="align-amount">
+                      {{ fetchedData.details[i].amount }}
+                    </p>
+                  </td>
+                </tr>
+              </td>
 
-                <td>
-                  {{ d.total_price }}
-                </td>
-              </tr>
-            </td>
-
-            <td
-              *ngFor="
-                let neededData of data.shift_details[0].details;
-                let i = index
-              "
-            >
-              <tr *ngFor="let fetchedData of data.shift_details">
-                <td>
-                  <p class="align-amount">
-                    {{ fetchedData.details[i].amount }}
-                  </p>
-                </td>
-              </tr>
-            </td>
-
-            <td>
-              {{ data.total_price }}
-            </td>
-          </tr>
-          <tr>
-            <!--*ngIf="data.is_night == false"-->
-            <th>
-              {{ data.is_night == true ? "ايراد الليل" : "ايراد النهار" }}
-            </th>
-            <td [attr.colspan]="parsedReportHeader.length + 5">
-              <p *ngIf="data.is_night == true">
-                {{ FetchedReport.total_night }}
-              </p>
-              <p *ngIf="data.is_night == false">
-                {{ FetchedReport.total_day }}
-              </p>
-            </td>
-            <!-- <td colspan="8">{{ FetchedReport.total_night }}</td> -->
-            <!-- <td>
+              <td>
+                {{ data.total_price }}
+              </td>
+            </tr>
+            <tr>
+              <!--*ngIf="data.is_night == false"-->
+              <th>
+                {{ data.is_night == true ? "ايراد الليل" : "ايراد النهار" }}
+              </th>
+              <td [attr.colspan]="parsedReportHeader.length + 5">
+                <p *ngIf="data.is_night == true">
+                  {{ FetchedReport.total_night }}
+                </p>
+                <p *ngIf="data.is_night == false">
+                  {{ FetchedReport.total_day }}
+                </p>
+              </td>
+              <!-- <td colspan="8">{{ FetchedReport.total_night }}</td> -->
+              <!-- <td>
               <tr *ngIf="data.is_night == false">
                 <td>ايراد الليل</td>
               </tr>
             </td> -->
-          </tr>
-        </ng-container>
+            </tr>
+          </ng-container>
 
-        <!-- <tr>
+          <!-- <tr>
           <td>ايراد الليل</td>
           <th>{{FetchedReport.total_night}}</th>
         </tr> -->
-      </tbody>
-    </table>
-
-    <table class="table table-bordered table-striped" #pdfTable id="pdfTable">
-      <tbody>
-        <tr>
-          <th>ايراد اليوم</th>
-          <td>{{ FetchedReport.total_day }}</td>
-        </tr>
-
-        <tr>
-          <th>الرصيد السابق</th>
-          <td>{{ FetchedReport.shifts_detail_previous }}</td>
-        </tr>
-
-        <tr>
-          <th>اجمالي عام</th>
-          <td>{{ totalCount | number }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="row text-center">
-      <table class="table table-bordered">
-        <thead>
-          <td>توقيع امين العهدة</td>
-          <td>توقيع رئيس الوردية</td>
-          <td>رئيس قسم التحصيل</td>
-        </thead>
-
-        <tr>
-          <td>
-            <p class="v-none">sfksf</p>
-          </td>
-          <td>
-            <p class="v-none">sfksjf</p>
-          </td>
-          <td>
-            <p class="v-none">sfksjf</p>
-          </td>
-        </tr>
+        </tbody>
       </table>
-    </div>
 
-    <div class="row d-print-none">
-      <!-- <div clas="col-md-6">
+      <table class="table table-bordered table-striped" #pdfTable id="pdfTable">
+        <tbody>
+          <tr>
+            <th>ايراد اليوم</th>
+            <td>{{ FetchedReport.total_day }}</td>
+          </tr>
+
+          <tr>
+            <th>الرصيد السابق</th>
+            <td>{{ FetchedReport.shifts_detail_previous }}</td>
+          </tr>
+
+          <tr>
+            <th>اجمالي عام</th>
+            <td>{{ totalCount | number }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row text-center">
+        <table class="table table-bordered">
+          <thead>
+            <td>توقيع امين العهدة</td>
+            <td>توقيع رئيس الوردية</td>
+            <td>رئيس قسم التحصيل</td>
+          </thead>
+
+          <tr>
+            <td>
+              <p class="v-none">sfksf</p>
+            </td>
+            <td>
+              <p class="v-none">sfksjf</p>
+            </td>
+            <td>
+              <p class="v-none">sfksjf</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row d-print-none">
+        <!-- <div clas="col-md-6">
         <button class="btn btn-primary" (click)="downloadAsPDF()">
           Download as PDF
         </button>
       </div> -->
 
-      <div class="col-md-12 text-center">
-        <button class="btn btn-success" (click)="Print()">طباعة التقرير</button>
+        <div class="col-md-12 text-center">
+          <button class="btn btn-success" (click)="Print()">
+            طباعة التقرير
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="break"></div>
-</app-structure-components>
+    <div class="break"></div>
+  </app-structure-components>
+</div>

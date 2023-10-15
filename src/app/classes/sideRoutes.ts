@@ -1,11 +1,16 @@
 import { ParentSideModel } from '../Interfaces/navs.model';
-
+// '../../assets/nav-icon/basic.svg'
+// '../../assets/nav-icon/basic.svg'
+// '../../assets/nav-icon/pound.svg'
+// '../../assets/nav-icon/system.svg'
+// '../../assets/nav-icon/system.svg'
+// '../../assets/nav-icon/report-svgrepo-com (1).svg'
 export const SideRoutes: ParentSideModel[] = [
   {
     name: 'المستخدمين ',
     id: 1,
     active: false,
-    icon: '../../assets/nav-icon/basic.svg',
+    icon: 'fa-solid fa-users',
     children: [
       {
         name: 'الصلاحيات',
@@ -28,7 +33,7 @@ export const SideRoutes: ParentSideModel[] = [
     name: 'البيانات الأساسية',
     id: 1,
     active: false,
-    icon: '../../assets/nav-icon/basic.svg',
+    icon: 'fa-solid fa-database',
     children: [
       {
         name: 'الطرق',
@@ -97,7 +102,7 @@ export const SideRoutes: ParentSideModel[] = [
     name: ' الاسعار',
     id: 2,
     active: false,
-    icon: '../../assets/nav-icon/pound.svg',
+    icon: 'fa-solid fa-money-check-dollar',
     children: [
       {
         name: 'فئات المركبات',
@@ -125,7 +130,7 @@ export const SideRoutes: ParentSideModel[] = [
     name: ' متابعة النظام',
     id: 2,
     active: false,
-    icon: '../../assets/nav-icon/system.svg',
+    icon: 'fa-solid fa-user-gear',
     children: [
       {
         name: 'متابعة التحصيل',
@@ -144,7 +149,7 @@ export const SideRoutes: ParentSideModel[] = [
     name: 'نظام الاشتراكات',
     id: 3,
     active: false,
-    icon: '../../assets/nav-icon/system.svg',
+    icon: 'fa-solid fa-building-user',
     children: [
       {
         name: 'الاشتراكات',
@@ -176,7 +181,7 @@ export const SideRoutes: ParentSideModel[] = [
     name: 'التقارير',
     id: 4,
     active: false,
-    icon: '../../assets/nav-icon/report-svgrepo-com (1).svg',
+    icon: 'fa-regular fa-clipboard',
     children: [
       {
         name: 'اجمالي عمليات فئات المركبات',
@@ -209,6 +214,8 @@ export const SideRoutes: ParentSideModel[] = [
     ],
   },
 ];
+// <i class=></i>
+// <i class=></i>
 /*
  },
   {

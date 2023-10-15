@@ -44,7 +44,7 @@ export class SideNavComponent implements OnInit {
     this.checkActiveRouter(this.router.url);
     this.activateMainRoute();
     this.onRouteChange();
-
+    console.log(this.appRoutes);
     this.service.isUser.emit(true);
   }
 

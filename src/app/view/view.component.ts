@@ -8,7 +8,9 @@ import { SideRoutes } from 'src/app/Classes/sideRoutes';
 })
 export class ViewComponent implements OnInit {
   SideRoutes = SideRoutes;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log(SideRoutes);
+  }
 }

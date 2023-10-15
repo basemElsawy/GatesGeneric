@@ -8,8 +8,11 @@
 
 @font-face {
   font-family: "Noto Kufi Arabic";
-  src: local("Noto Kufi Arabic"),
-    url(./assets/static/NotoKufiArabic-Medium.ttf) format("truetype");
+  src: local("Cairo"), url(./assets/static/Cairo-Medium.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Cairo Bold";
+  src: local("Cairo"), url(./assets/static/Cairo-Bold.ttf) format("truetype");
 }
 *,
 *::before,
@@ -21,7 +24,7 @@ body {
   margin: 0;
   padding: 0;
   background: #edf2fcd6;
-  font-family: "Noto Kufi Arabic", sans-serif;
+  font-family: "Noto Kufi Arabic", sans-serif !important;
   overflow: hidden;
 }
 .card-blur {
@@ -61,9 +64,84 @@ body {
 }
 body {
   margin: 0;
+  // overflow: scroll;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .add-btn {
-  border-radius: 0px !important;
+  border-radius: 5px !important;
+  color: #6d6d6d !important;
+  border: none;
+  background-color: white;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.146);
+}
+.add-btn:hover {
+  background-color: white;
+}
+
+.rounded-pill {
+  border-radius: 5px !important;
+}
+.btn:has(.btn-success),
+.btn:has(.btn-outline-success) {
+  background-color: teal !important;
+  border: none !important;
+  color: white !important;
+}
+
+*::-webkit-scrollbar {
+  opacity: 0;
+  display: none;
+}
+
+.reports-wrapper {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.btn-login {
+  color: #0a58ca !important;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  font-family: "Cairo Bold" !important;
+  position: relative;
+  font-size: 21px;
+  overflow: hidden;
+  border-radius: 5px;
+  transition: 0.3s ease;
+
+  transition-delay: 0.15;
+}
+.btn-login::after {
+  content: "";
+  height: 5px;
+  background-color: #0a58ca;
+  width: 100%;
+  left: 50%;
+  transform: translate(-50%);
+  position: absolute;
+  bottom: -1%;
+  transition: 0.3s cubic-bezier(0.68, -0.01, 0, 1.32);
+}
+
+.btn-login:hover {
+  background: transparent;
+}
+
+.btn-login:hover::after {
+  height: 100%;
+}
+
+.btn-login:hover span {
+  position: relative;
+  z-index: 1000;
+  color: white !important;
+}
+
+.btn-login:focus {
+  scale: 0.95 !important;
+  color: white !important;
+  background-color: white;
+  background-color: #0a58ca;
 }

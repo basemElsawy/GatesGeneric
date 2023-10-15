@@ -26,9 +26,12 @@ export class NewSubscriptionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.subscription_shift_details = JSON.parse(
-      localStorage.getItem('subscriptions_shift_details') || ''
-    );
+    debugger;
+    if (this.subscription_shift_details) {
+      this.subscription_shift_details = JSON.parse(
+        localStorage.getItem('subscriptions_shift_details') || ''
+      );
+    }
     this.userData = this._formBuilder.group({
       fullname: [
         null,

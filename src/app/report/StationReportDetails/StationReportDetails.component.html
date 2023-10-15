@@ -1,91 +1,95 @@
-<app-structure-components
-  [lang]="getCurrentLanguage()"
-  [endPointUrl]="''"
-  [titles]="
-    getCurrentLanguage() == 'ar'
-      ? ' تقرير باحصائيات المحطة '
-      : 'statistical station report'
-  "
->
-  <div class="w-100 d-print-none" header>
-    <form [formGroup]="searchform">
-      <div class="row">
-        <div class="form-group">
-          <div class="col-md-4">
-            <label>برجاء اختيار التاريخ و السنة </label>
-            <input
-              type="month"
-              formControlName="dateYear"
-              class="form-control"
-            />
+<div class="reports-wrapper">
+  <app-structure-components
+    [lang]="getCurrentLanguage()"
+    [endPointUrl]="''"
+    [titles]="
+      getCurrentLanguage() == 'ar'
+        ? ' تقرير باحصائيات المحطة '
+        : 'statistical station report'
+    "
+  >
+    <div class="w-100 d-print-none" header>
+      <form [formGroup]="searchform">
+        <div class="row">
+          <div class="form-group">
+            <div class="col-md-4">
+              <label>برجاء اختيار التاريخ و السنة </label>
+              <input
+                type="month"
+                formControlName="dateYear"
+                class="form-control"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
 
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4 text-center">
-        <button
-          (click)="generateDialyReports()"
-          class="btn btn-outline-primary mx-2 my-2 rounded-pill"
-        >
-          <i class="fab fa-searchengin h5"></i>
-          بحث
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div body *ngIf="showFetchedData">
-    <div class="row">
-      <div class="col-md-12 text-right">
-        <img class="img-holder" src="../../../assets/newLogo.jpeg" />
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
+          <button
+            (click)="generateDialyReports()"
+            class="btn btn-outline-primary mx-2 my-2 rounded-pill"
+          >
+            <i class="fab fa-searchengin h5"></i>
+            بحث
+          </button>
+        </div>
       </div>
     </div>
-    <h4 class="text-center fw-bold">
-      بيان تفصيلي بإجمالي إيرادات التحصيل عن شهر {{ date }} سنة {{ year }}
-    </h4>
-    <table class="table table-responsive table-bordered table-striped">
-      <thead>
-        <th>التاريخ</th>
-        <th *ngFor="let x of fetchedGates">
-          {{ x.name }}
-        </th>
-      </thead>
 
-      <tbody>
-        <tr *ngFor="let data of fetchedReportData; let i = index">
-          <td>
-            {{ data.date }}
-          </td>
-          <td *ngFor="let neededData of data.gates">
-            <tr class="d-flex justify-content-center">
-              {{
-                neededData.total
-              }}
-            </tr>
-          </td>
-        </tr>
-        <tr>
-          <th>الاجمالي</th>
-          <td *ngFor="let x of fetchedGates"></td>
-        </tr>
-
-        <tr>
-          <th [attr.colspan]="fetchedGates.length">
-            الاجمالي العام لمحطات التحصيل
+    <div body *ngIf="showFetchedData">
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <img class="img-holder" src="../../../assets/newLogo.jpeg" />
+        </div>
+      </div>
+      <h4 class="text-center fw-bold">
+        بيان تفصيلي بإجمالي إيرادات التحصيل عن شهر {{ date }} سنة {{ year }}
+      </h4>
+      <table class="table table-responsive table-bordered table-striped">
+        <thead>
+          <th>التاريخ</th>
+          <th *ngFor="let x of fetchedGates">
+            {{ x.name }}
           </th>
-          <td>{{ total | number }}</td>
-        </tr>
-      </tbody>
-    </table>
+        </thead>
 
-    <div class="row">
-      <div class="col-md-12 text-center d-print-none">
-        <button class="btn btn-success" (click)="print()">طباعة التقرير</button>
+        <tbody>
+          <tr *ngFor="let data of fetchedReportData; let i = index">
+            <td>
+              {{ data.date }}
+            </td>
+            <td *ngFor="let neededData of data.gates">
+              <tr class="d-flex justify-content-center">
+                {{
+                  neededData.total
+                }}
+              </tr>
+            </td>
+          </tr>
+          <tr>
+            <th>الاجمالي</th>
+            <td *ngFor="let x of fetchedGates"></td>
+          </tr>
+
+          <tr>
+            <th [attr.colspan]="fetchedGates.length">
+              الاجمالي العام لمحطات التحصيل
+            </th>
+            <td>{{ total | number }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-md-12 text-center d-print-none">
+          <button class="btn btn-success" (click)="print()">
+            طباعة التقرير
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-</app-structure-components>
+  </app-structure-components>
+</div>
