@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WebcamImage } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { RequestService } from 'src/app/https/request.service';
@@ -8,6 +9,8 @@ import { DatePipe } from '@angular/common';
 import { ErrorView } from 'src/app/classes/ErrorView';
 import { LoaderService } from 'src/app/shared-serviceses/Loader.service';
 import { environment } from '../../../environments/environment';
+import { ServicesService } from 'src/app/auth/services/services.service';
+import { ShiftInfo } from 'src/app/Interfaces/shiftInfo';
 @Component({
   selector: 'app-welcom',
   templateUrl: './welcom.component.html',
@@ -19,7 +22,8 @@ export class WelcomComponent implements OnInit {
   ViewTemplate: any;
   ViewTemplateImg: any;
   public webcamImage!: WebcamImage;
-
+  isHidden: boolean = true;
+  shiftInfp!: ShiftInfo;
   currentDateTime: any;
   checkOpen: Subject<boolean> = new Subject<boolean>();
   private trigger: Subject<void> = new Subject<void>();
@@ -28,7 +32,9 @@ export class WelcomComponent implements OnInit {
     private datePipe: DatePipe,
     private toastr: ToastrService,
     private loaderService: LoaderService,
-    private service: RequestService
+    private service: RequestService,
+    private auth: ServicesService,
+    private router: Router
   ) {
     this.currentDateTime = this.datePipe.transform(
       new Date(),
@@ -46,6 +52,20 @@ export class WelcomComponent implements OnInit {
       '../../../assets/debit-card.png',
       '../../../assets/free-shipping.png',
     ];
+    if (localStorage.getItem('shiftInfio')) {
+      let data = localStorage.getItem('shiftInfio');
+      this.shiftInfp = JSON.parse(data ? data : '');
+    }
+  }
+  navigateToShiftDetails() {
+    this.router.navigate(['./UserTOM/shiftDetails']);
+  }
+
+  logout() {
+    let body = {};
+    this.isHidden = false;
+
+    this.auth.clearLocalStorage('close');
   }
 
   SelectedItem: any;

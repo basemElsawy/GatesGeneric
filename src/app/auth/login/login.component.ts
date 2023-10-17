@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
-      lane_id: new FormControl(null),
+      lane_id: new FormControl(1006),
       open_shift: new FormControl(false),
       subscription_shift: new FormControl(false),
     });
@@ -58,6 +58,9 @@ export class LoginComponent implements OnInit {
 
   get subscription_shift() {
     return this.f?.controls['subscription_shift'] as FormControl;
+  }
+  get lane_id() {
+    return this.f?.controls['lane_id'] as FormControl;
   }
   handleLaneChange(val: any) {}
   handleInputCallback(val: any) {}

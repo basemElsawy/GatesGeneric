@@ -22,11 +22,13 @@ export class ServicesService {
   ) {}
 
   login(userForm: any) {
+    debugger;
     this.clearLocalStorage();
     this.isLoading.next(true);
     userForm;
     this.service.PostMethodWithPipe('user/login/', userForm).subscribe({
       next: (res: any) => {
+        debugger;
         if (!localStorage.getItem('token'))
           localStorage.setItem('token', res?.token.token);
         localStorage.setItem('normal', userForm?.open_shift);
