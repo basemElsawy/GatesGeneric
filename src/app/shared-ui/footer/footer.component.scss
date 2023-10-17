@@ -1,56 +1,56 @@
-.rowstyle {
-    background-color: rgb(185, 223, 255);
-    margin-left: auto;
-    margin-right: auto;
-    padding: 14px 0;
-    // border-radius: 15px;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-}
-.footer-container{
+// .rowstyle {
+//   // background-color: rgb(185, 223, 255);
+//   margin-left: auto;
+//   margin-right: auto;
+//   padding: 14px 0;
+//   // border-radius: 15px;
+//   margin-top: 0 !important;
+//   margin-bottom: 0 !important;
+// }
+.footer-container {
   position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .modal-content {
-    margin-top: 97px !important;
+  margin-top: 97px !important;
 }
 
 .modal-header {
-    background-color: #ddd;
-    border-radius: 0 !important;
+  background-color: #ddd;
+  border-radius: 0 !important;
 }
 
 .modal-footer {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .hide-navbar {
-    display: none;
+  display: none;
 }
 
 ::ng-deep .my-class .modal-dialog {
-    top: 60px;
+  top: 60px;
 }
 
 .rowstyle2 {
-    background-color: #03506f;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
-    // padding: 8px 0;
-    // border-radius: 15px;
-    font-family: system-ui;
-    color: #fff;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 14px 0;
-    // border-radius: 3px;
+  //   background-color: #03506f;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  // padding: 8px 0;
+  // border-radius: 15px;
+  font-family: system-ui;
+  color: #fff;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 14px 0;
+  // border-radius: 3px;
 }
 
-.buttons{
-    font-size: 15px;
-    font-weight: bold
+.buttons {
+  font-size: 15px;
+  font-weight: bold;
 }

@@ -1,0 +1,125 @@
+<div class="content-wrapper">
+  <div class="camera-position sub-container">
+    <webcam
+      [trigger]="triggerObservable"
+      (imageCapture)="handleImage($event)"
+      [width]="500"
+      [height]="500"
+    >
+    </webcam>
+  </div>
+
+  <div class="sub-container buttons-container">
+    <h2 class="headline">اختر نوع العربة</h2>
+    <div class="small-cards">
+      <div class="" *ngFor="let categories of ViewTemplate" let i="index">
+        <div
+          (click)="triggerSnapshot(categories)"
+          (load)="print()"
+          class="card"
+          [ngClass]="{ damd: isActiveGate }"
+        >
+          <div class="img-holder">
+            <img
+              [src]="imgUrl + categories.car_class_id.car_image"
+              class="img-fit"
+              alt="categories-img"
+            />
+          </div>
+          <div class="card-body">
+            <p>{{ categories.car_class_id?.car_classe_Name_Ar }}</p>
+            <p>{{ categories.amount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+  </div>
+</div>
+<app-loader> </app-loader>
+<!-- here is the section needed for reciept-->
+<div class="ticket m-auto" *ngIf="holdUserInfo" onload="window.print()">
+  <div class="d-flex justify-content-between align-items-center">
+    <img src="../../../assets/newLogo.jpeg" alt="Logo" />
+
+    <qr-code
+      style="height: 110px; width: 110px; position: relative; top: 3px"
+      value="
+   
+      Ticket No : {{ holdUserInfo.ticket_number_id }}
+                "
+      size="115"
+      errorCorrectionLevel="M"
+    >
+    </qr-code>
+  </div>
+
+  <div class="row mt-1">
+    <p class="text-center m-0">
+      {{ holdUserInfo.lane_id.directions_id.gate_id.road_id.road_name_ar }}
+    </p>
+    <p class="text-center m-0 mt0">
+      محطة تحصيل رسوم {{ holdUserInfo.lane_id.directions_id.gate_id.gate_name_ar
+      }}
+    </p>
+  </div>
+
+  <!-- <div class="col-md-12 mt-3">
+    <p class="text-center">
+      {{ holdUserInfo.lane_id.directions_id.gate_id.road_id.road_name_ar }}
+    </p>
+    <p class="text-center mt0">
+      محطة تحصيل رسوم
+      {{ holdUserInfo.lane_id.directions_id.gate_id.gate_name_ar }}
+    </p>
+  </div> -->
+
+  <table class="table table-responsive">
+    <tbody>
+      <tr>
+        <td class="td-new">اتجاه المرور :</td>
+        <td class="td-values">
+          {{ holdUserInfo.lane_id.directions_id.directions_name_ar }}
+        </td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">بيان مرور النقطة :</td>
+        <td class="td-values">النقطة {{ holdUserInfo.lane_id.lane_id }}</td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">التوقيت :</td>
+        <td class="td-values">
+          {{ holdUserInfo.created_at | date : "yyyy-MM-dd" }} - {{
+          LatestFinalDepartureTime[0] + LatestFinalDepartureTime[1] +
+          LatestFinalDepartureTime[2] + LatestFinalDepartureTime[3] +
+          LatestFinalDepartureTime[4] }}
+        </td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">الرقم التسلسلي :</td>
+        <td class="td-values">{{ holdUserInfo.ticket_number_id }}</td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">فئة السيارة :</td>
+        <td class="td-values">
+          {{ holdUserInfo.car_class_id.car_classe_Name_Ar }}
+        </td>
+      </tr>
+      <tr>
+        <td class="td-new fw-bold">القيمة المحصلة :</td>
+        <td class="td-values">{{ holdUserInfo.price }} جنيه</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="locked-image-container">
+  <img
+    class="locked-img"
+    [class]="!isActiveGate ? 'damd_icon' : ''"
+    [src]="
+      isActiveGate ? '../../../assets/unlocked.png' : '../../../assets/lock.svg'
+    "
+    (click)="habdleGateOpreation()"
+  />
+</div>

@@ -13,20 +13,19 @@ export class FooterComponent implements OnInit {
   isHidden: boolean = true;
   shiftInfp!: ShiftInfo;
   ngOnInit() {
-    if (localStorage.getItem('shiftInfio')) {
-      let data = localStorage.getItem('shiftInfio');
-      this.shiftInfp = JSON.parse(data ? data : '');
-    }
+    // if (localStorage.getItem('shiftInfio')) {
+    //   let data = localStorage.getItem('shiftInfio');
+    //   this.shiftInfp = JSON.parse(data ? data : '');
+    // }
   }
 
   navigateToShiftDetails() {
-    this.router.navigate(['./UserTOM/shiftDetails']);
+    // this.router.navigate(['./UserTOM/shiftDetails']);
   }
 
   logout() {
-    let body = {};
-    this.isHidden = false;
-
-    this.auth.clearLocalStorage('close');
+    // let body = {};
+    // this.isHidden = false;
+    // this.auth.clearLocalStorage('close');
   }
 }

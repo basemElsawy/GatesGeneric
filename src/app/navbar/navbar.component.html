@@ -1,18 +1,19 @@
 <div
   id="nav"
-  class="navbar-main container-fluid d-print-none"
+  class="navbar-main d-flex d-print-none"
   *ngIf="!(service.state | async)"
   dir="rtl"
 >
-  <div class="row">
-    <!-- <div class="col-4"></div> -->
-    <div class="col-12 text-center">
-      <h5 class="title-adjustment">
-        {{ Title }}
-      </h5>
-    </div>
-    <!-- <div class="col-4 text-start cursor-pointer">
-      <img src="../../../assets/logo.jpg" class="w-35" alt="logo" />
-    </div> -->
+  <div class="col-5 text-center">
+    <h5 class="title-adjustment">
+      {{ Title }}
+    </h5>
+  </div>
+  <div class="col-5">
+    <h5 class="labels text_style text-center">
+      تاريخ و وقت فتح الوردية :{{
+        shiftInfp.created_at | date : "dd-MM-yyyy hh:mm"
+      }}
+    </h5>
   </div>
 </div>
