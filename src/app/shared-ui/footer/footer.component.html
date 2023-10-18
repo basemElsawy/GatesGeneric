@@ -1,56 +1,23 @@
-<div
-  id="nav"
-  class="footer-container w-100 d-print-none"
-  dir="rtl"
-  *ngIf="isHidden"
->
-  <div class="container-fluid">
-    <!-- <div class="row rowstyle my-3 justify-content-center">
-      <div class="col">
-        <h5 class="text-center">البوابة :{{ "البغدادي" }}</h5>
-      </div>
-
-      <div class="col">
-        <h5 class="text-center">رقم الحارة : {{ shiftInfp.lane_id }}</h5>
-      </div>
-
-      <div class="col">
-        <h5 class="text-center">رقم الوردية :{{ shiftInfp.shift_id }}</h5>
-      </div>
-
-      <div class="col">
-        <h5 class="text-center">رقم النسخة : {{ shiftInfp.shift_id }}</h5>
-      </div>
-    </div> -->
-
-    <div class="row rowstyle2 my-3 justify-content-center">
-      <div class="col">
-        <h5 class="labels text_style text-center">
-          تاريخ و وقت فتح الوردية :{{
-            shiftInfp.created_at | date : "dd-MM-yyyy hh:mm"
-          }}
-        </h5>
-      </div>
-
-      <div class="col-5">
-        <div class="col-12 d-flex justify-content-end">
-          <button class="button-styles mx-1 px-4 py-2 btn btn-primary buttons">
-            تعليق وردية
-          </button>
-          <button
-            class="button-styles mx-1 px-4 py-2 btn btn-info buttons"
-            (click)="navigateToShiftDetails()"
-          >
-            تفاصيل الوردية
-          </button>
-          <button
-            class="button-styles mx-1 px-4 py-2 btn btn-danger buttons"
-            (click)="logout()"
-          >
-            غلق الوردية
-          </button>
-        </div>
-      </div>
+<div id="nav" class="d-print-none footer-wrapper" dir="rtl" *ngIf="isHidden">
+  <div
+    class="buttons-container d-flex w-100 justify-content-center align-items-center"
+  >
+    <div
+      class="col-12 d-flex justify-content-center buttons-wrapper bg-white gap-3"
+    >
+      <button class="button-styles buttons different green">
+        <span>تعليق وردية </span> <i class="fa-solid fa-pause"></i>
+      </button>
+      <button
+        class="button-styles border-diff buttons different"
+        (click)="navigateToShiftDetails()"
+      >
+        <span>تفاصيل الوردية</span>
+        <i class="fa-solid fa-book"></i>
+      </button>
+      <button class="button-styles buttons red" (click)="logout()">
+        <span>غلق الوردية</span> <i class="fa-regular fa-circle-xmark"></i>
+      </button>
     </div>
   </div>
 </div>

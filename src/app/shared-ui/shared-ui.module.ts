@@ -44,6 +44,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { InputRadioComponent } from './input-radio/input-radio.component';
+import { UserDataComponent } from './user-data/user-data.component';
 @NgModule({
   declarations: [
     InputTextComponent,
@@ -77,6 +78,7 @@ import { InputRadioComponent } from './input-radio/input-radio.component';
     InputRadioComponent,
     RecetComponent,
     AppSearchReportFilterComponent,
+    UserDataComponent,
   ],
   imports: [
     CommonModule,

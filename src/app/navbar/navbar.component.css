@@ -1,13 +1,16 @@
 .navbar-main {
-  background-color: #fff;
-  padding: 5px;
+  background-color: #dfe8ff;
+  padding-top: 10px;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 10000;
-  box-shadow: 0px 0px 12px #00000025;
+  box-shadow: 0px 0px 6px #00000025;
   height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hide-navbar {
