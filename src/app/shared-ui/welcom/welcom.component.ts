@@ -102,6 +102,7 @@ export class WelcomComponent implements OnInit {
   FinalDepartureTime: any;
   LatestFinalDepartureTime: any;
   lane_id: any;
+
   SubmitNeededData() {
     this.lane_id = JSON.parse(localStorage.getItem('shiftInfio') || '');
     this.checkOpen.next(false);

@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
-      lane_id: new FormControl(1006),
+      lane_id: new FormControl(5),
       open_shift: new FormControl(false),
       subscription_shift: new FormControl(false),
     });

@@ -7,10 +7,6 @@
   </div>
   <div class="modal-footer" [dir]="Lang == 'ar' ? 'rtl' : 'ltr'">
     <ng-content select="[footer]"></ng-content>
-    <app-button
-      [btnClass]="'btn btn-outline-danger'"
-      [btnText]="Lang == 'ar' ? 'الغاء' : 'close'"
-      (CallBack)="handleClose()"
-    ></app-button>
+    <button class="close-modal" (click)="handleClose()">الغاء</button>
   </div>
 </ng-template>

@@ -7,16 +7,18 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 @font-face {
-  font-family: "Noto Kufi Arabic";
+  font-family: NotoKufiArabic;
   src: local("Cairo"), url(./assets/static/Cairo-Medium.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Cairo Bold";
+  font-family: CairoBold;
   src: local("Cairo"), url(./assets/static/Cairo-Bold.ttf) format("truetype");
 }
+
 *,
 *::before,
 *::after {
+  font-family: "CairoBold" !important;
   box-sizing: border-box !important;
 }
 html,

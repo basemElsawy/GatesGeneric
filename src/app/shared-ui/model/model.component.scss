@@ -3,3 +3,19 @@
   border: none !important;
   color: white !important;
 }
+.modal-header {
+  border-radius: 4px 4px 0px 0px;
+  overflow: clip;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+.modal-footer {
+  background-color: #223341;
+}
+.modal-footer button {
+  color: white !important;
+  background-color: #4071987a;
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+}

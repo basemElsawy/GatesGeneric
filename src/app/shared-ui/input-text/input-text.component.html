@@ -2,7 +2,6 @@
   <input
     [type]="Type"
     [class]="InputClass"
-    [placeholder]="Placeholder | translate"
     [id]="Id"
     [maxlength]="inputmax"
     [formControlName]="FormConterName"
@@ -17,7 +16,6 @@
     [disabled]="disable"
     [value]="userValue"
     [class]="InputClass"
-    [placeholder]="Placeholder | translate"
     [id]="Id"
     (click)="isClicked ? handleOnClick($event) : null"
     (change)="isChanges ? handleOnChange($event) : handleFile($event)"

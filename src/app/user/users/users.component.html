@@ -46,7 +46,7 @@
 </app-structure-components>
 
 <app-model [Lang]="getCurrentLanguage()">
-  <div header>
+  <div class="add-user-heading" header>
     <h4 *ngIf="isNewMode">
       {{ getCurrentLanguage() == "ar" ? "اضافة المستخدم" : "Add User" }}
     </h4>
@@ -60,7 +60,7 @@
   <div body>
     <div>
       <form
-        class="row"
+        class="row new-user-form"
         [formGroup]="f"
         *ngIf="(isNewMode || isEditMode) && !isDeleteMode"
       >
@@ -432,42 +432,46 @@
             class="d-flex w-100"
             *ngFor="let control of groups.controls; let i = index"
           >
-            <div class="form-group mb-2 w-75">
-              <app-label
-                [LabelValue]="
-                  getCurrentLanguage() == 'ar' ? ' الجروب ' : 'Group'
-                "
-                [LabelFor]="'per'"
-              >
-              </app-label>
-              <app-dp-single-select
-                [Placeholder]="
-                  getCurrentLanguage() == 'ar'
-                    ? 'برجاء الاختيار'
-                    : 'Please select'
-                "
-                [FormConterName]="'per'"
-                [InputClass]="'form-control form-select'"
-                [Id]="'per'"
-                [FormParent]="control"
-                [disable]="false"
-                [isClicked]="false"
-                [isChanges]="false"
-                [Options]="holListOfGroups"
-                [Lang]="getCurrentLanguage()"
-                [returnKey]="'id'"
-                [viewKeyAr]="'name'"
-                [viewKeyEn]="'name'"
-                (callBack)="handleInputCallback($event)"
-              >
-              </app-dp-single-select>
+            <div class="form-group group-select mb-2 w-75">
+              <div class="select-inputs">
+                <app-label
+                  [LabelValue]="
+                    getCurrentLanguage() == 'ar' ? ' الجروب ' : 'Group'
+                  "
+                  [LabelFor]="'per'"
+                >
+                </app-label>
+                <div class="select-group">
+                  <app-dp-single-select
+                    [Placeholder]="
+                      getCurrentLanguage() == 'ar'
+                        ? 'برجاء الاختيار'
+                        : 'Please select'
+                    "
+                    class="select"
+                    [FormConterName]="'per'"
+                    [InputClass]="'form-control form-select'"
+                    [Id]="'per'"
+                    [FormParent]="control"
+                    [disable]="false"
+                    [isClicked]="false"
+                    [isChanges]="false"
+                    [Options]="holListOfGroups"
+                    [Lang]="getCurrentLanguage()"
+                    [returnKey]="'id'"
+                    [viewKeyAr]="'name'"
+                    [viewKeyEn]="'name'"
+                    (callBack)="handleInputCallback($event)"
+                  >
+                  </app-dp-single-select>
+                  <div>
+                    <button class="remove-group" (click)="removeGroups(i)">
+                      -
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <button
-              class="btn btn-outline-danger w-16 h-50 mt-4"
-              (click)="removeGroups(i)"
-            >
-              -
-            </button>
           </div>
         </div>
         <button
@@ -494,11 +498,15 @@
   </div>
   <div footer>
     <div class="d-flex text-end">
-      <app-button
+      <button class="save-button" (click)="submitRequest()">
+        {{ getCurrentLanguage() == "ar" ? "حفظ" : "save" }}
+      </button>
+
+      <!-- <app-button
         [btnClass]="'btn btn-outline-success'"
         [btnText]="getCurrentLanguage() == 'ar' ? 'حفظ' : 'Save'"
         (CallBack)="submitRequest()"
-      ></app-button>
+      ></app-button> -->
     </div>
   </div>
 </app-model>

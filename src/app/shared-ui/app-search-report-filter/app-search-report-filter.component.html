@@ -1,6 +1,6 @@
-<form [formGroup]="searchForm">
-  <div class="row">
-    <div class="col-md-4">
+<form class="" [formGroup]="searchForm">
+  <div class="parent-group">
+    <div class="">
       <div class="form-group mx-1">
         <app-label
           [LabelValue]="'من تاريخ'"
@@ -19,30 +19,29 @@
         </app-input-date>
       </div>
     </div>
-
-    <div class="col-md-4">
-      <div class="form-group mx-1">
-        <app-label
-          [LabelValue]="'الي تاريخ'"
-          [LabelClass]="'mx-auto p-2'"
-          [LabelFor]="'EndDate'"
-        >
-        </app-label>
-        <app-input-date
-          [FormParent]="searchForm"
-          [FormConterName]="'endDate'"
-          [InputClass]="'form-control input-date'"
-          [Type]="'date'"
-          [disable]="false"
-          [isClicked]="false"
-        >
-        </app-input-date>
+    <div class="">
+      <div class="">
+        <div class="form-group mx-1">
+          <app-label
+            [LabelValue]="'الي تاريخ'"
+            [LabelClass]="'mx-auto p-2'"
+            [LabelFor]="'EndDate'"
+          >
+          </app-label>
+          <app-input-date
+            [FormParent]="searchForm"
+            [FormConterName]="'endDate'"
+            [InputClass]="'form-control input-date'"
+            [Type]="'date'"
+            [disable]="false"
+            [isClicked]="false"
+          >
+          </app-input-date>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-4">
+    <div class="">
       <div class="form-group mx-1">
         <app-label
           [LabelValue]="'الطريق'"
@@ -69,38 +68,37 @@
         </app-dp-single-select>
       </div>
     </div>
-
-    <div class="col-md-4">
-      <div class="form-group mx-1">
-        <app-label
-          [LabelValue]="'البوابات'"
-          [LabelClass]="'mx-auto p-2'"
-          [LabelFor]="'searchTwo'"
-        >
-        </app-label>
-        <app-dp-single-select
-          [Placeholder]="'البوابات'"
-          [FormConterName]="'searchTwo'"
-          [InputClass]="'form-control form-select form-selectx ar'"
-          [Id]="'searchTwo'"
-          [FormParent]="searchForm"
-          [disable]="false"
-          [isClicked]="false"
-          [isChanges]="true"
-          [Options]="OptionTwo"
-          [Lang]="'ar'"
-          [returnKey]="'gate_id'"
-          [viewKeyAr]="'gate_name_ar'"
-          [viewKeyEn]="'gate_name_en'"
-          (callBack)="submitFilter()"
-        >
-        </app-dp-single-select>
+    <div class="">
+      <div class="">
+        <div class="form-group mx-1">
+          <app-label
+            [LabelValue]="'البوابات'"
+            [LabelClass]="'mx-auto p-2'"
+            [LabelFor]="'searchTwo'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="'البوابات'"
+            [FormConterName]="'searchTwo'"
+            [InputClass]="'form-control form-select form-selectx ar'"
+            [Id]="'searchTwo'"
+            [FormParent]="searchForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="true"
+            [Options]="OptionTwo"
+            [Lang]="'ar'"
+            [returnKey]="'gate_id'"
+            [viewKeyAr]="'gate_name_ar'"
+            [viewKeyEn]="'gate_name_en'"
+            (callBack)="submitFilter()"
+          >
+          </app-dp-single-select>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-4">
+    <div class="">
       <div class="form-group mx-1">
         <app-label
           [LabelValue]="'الحارات'"
@@ -127,36 +125,36 @@
         </app-dp-single-select>
       </div>
     </div>
-
-    <div class="col-md-4">
-      <div class="form-group mx-1">
-        <app-label
-          [LabelValue]="'الفئة'"
-          [LabelClass]="'mx-auto p-2'"
-          [LabelFor]="'searchFourth'"
-        >
-        </app-label>
-        <app-dp-single-select
-          [Placeholder]="'الفئة'"
-          [FormConterName]="'searchFourth'"
-          [InputClass]="'form-control form-select form-selectx ar'"
-          [Id]="'searchFourth'"
-          [FormParent]="searchForm"
-          [disable]="false"
-          [isClicked]="false"
-          [isChanges]="true"
-          [Options]="OptionFour"
-          [Lang]="'ar'"
-          [returnKey]="'car_classe_id'"
-          [viewKeyAr]="'car_classe_Name_Ar'"
-          [viewKeyEn]="'car_classe_Name_En'"
-          (callBack)="submitFilter()"
-        >
-        </app-dp-single-select>
+    <div class="">
+      <div class="">
+        <div class="form-group mx-1">
+          <app-label
+            [LabelValue]="'الفئة'"
+            [LabelClass]="'mx-auto p-2'"
+            [LabelFor]="'searchFourth'"
+          >
+          </app-label>
+          <app-dp-single-select
+            [Placeholder]="'الفئة'"
+            [FormConterName]="'searchFourth'"
+            [InputClass]="'form-control form-select form-selectx ar'"
+            [Id]="'searchFourth'"
+            [FormParent]="searchForm"
+            [disable]="false"
+            [isClicked]="false"
+            [isChanges]="true"
+            [Options]="OptionFour"
+            [Lang]="'ar'"
+            [returnKey]="'car_classe_id'"
+            [viewKeyAr]="'car_classe_Name_Ar'"
+            [viewKeyEn]="'car_classe_Name_En'"
+            (callBack)="submitFilter()"
+          >
+          </app-dp-single-select>
+        </div>
       </div>
     </div>
   </div>
-
   <div class="w-100 text-start">
     <app-button
       [btnClass]="'mx-2 my-2 btn btn-outline-primary rounded-pill'"
